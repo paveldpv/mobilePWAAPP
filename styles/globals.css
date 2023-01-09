@@ -1,4 +1,10 @@
+
+
 @tailwind base;
 @tailwind components;
+@font-face {
+  font-family: 'zaychem';
+  src: local('zaychem'), url(./../public/fonts/Zaychik-Regular.woff) format('woff');
+}
 @tailwind utilities;
 

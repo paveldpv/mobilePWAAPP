@@ -1,8 +1,10 @@
 import React from 'react'
+import { TNav } from '../../data/dataNav'
 
-type Props = {}
 
-export default function Button({}: Props) {
+
+
+export default function Button({label,href}: TNav) {
   return (
     <button>Button</button>
   )

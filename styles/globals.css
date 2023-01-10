@@ -1,4 +1,7 @@
-
+body{
+  height: 100vh;
+  min-width: 393px
+}
 
 @tailwind base;
 @tailwind components;

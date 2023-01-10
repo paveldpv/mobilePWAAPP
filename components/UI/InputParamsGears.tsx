@@ -3,7 +3,8 @@
 type Props = {
   label:string,
   units:string,
-  mark:any,
+  mark:string,
+  value:number,
   setValue:React.Dispatch<React.SetStateAction<Number>>
 }
 

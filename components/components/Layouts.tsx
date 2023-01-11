@@ -12,7 +12,7 @@ export default function Layouts({ children }: Props) {
    
 
   return (
-    <div className=" h-screen overflow-hidden w-screen relative bg-lime-900">
+    <div className=" h-screen overflow-hidden w-screen relative bg-basisBlack  ">
       <AnimatePresence>
         {!isVisibleNav &&
         <motion.div
@@ -20,12 +20,12 @@ export default function Layouts({ children }: Props) {
         animate={{y:0}}
         transition={{delay:0.1}}
         exit={{y:-100}}>
-           <HiViewList size={40} onClick={()=>setVisibleNav(true)}/>
+           <HiViewList className="text-white" size={40} onClick={()=>setVisibleNav(true)}/>
         </motion.div>}
       </AnimatePresence>
       <AnimatePresence>
         {isVisibleNav && (
-          <motion.div className=" shadow-2xl bg-gradient-to-t from-yellow-700 to-yellow-900  absolute mr-4 top-8 rounded-r-lg border-2 border-teal-900 border-solid"           
+          <motion.div className=" shadow-2xl bg-cardGreen absolute mr-4 top-8 rounded-r-lg "           
             initial={{x: -500}}
             animate={{x: 0}}
             transition={{ delay: 0.3 }}

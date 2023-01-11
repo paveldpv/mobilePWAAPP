@@ -1,15 +1,15 @@
 import { TCalcGears } from "../../data/dataCalcGears"
 
-export default function InputParamsGears({label,units,mark,ref,value}: TCalcGears) {
+export default function InputParamsGears({label,units,mark,ref,value,control}: TCalcGears) {
   return (
-    <div className={` grid grid-cols-5 border-2 border-solid border-black rounded-md w-11/12 mx-auto`}>
-      <div className=" col-span-3 text-center align-middle">{label}</div>
-      <div className=" border-r-2 border-l-2 border-black">
-        <div className=" border-b-2 border-black"> = {mark}</div>
+    <div className={` my-3 grid grid-cols-5  border-solid rounded-md w-11/12 mx-auto font-SofiaSans  text-center bg-blue shadow-2xl text-basisBlack`}>
+      <div className=" col-span-3 text-center align-middle font-bold text-xl pt-3 shadow-sm">{label}</div>
+      <div className="  border-l-2 border-r-2 border-basisBlack ">
+        <div className=" border-b-2 border-basisBlack  font-Lobster">{mark}</div>
         <div>{units}</div>
       </div>
       <div className="p-1">
-       <input type="number" className=" w-full h-full"/>
+       <input type="number" ref={ref} defaultValue={2}  className=" text-center text-3xl font-bold rounded-md p-1 w-full h-full"/>
       </div>
     </div>
   )

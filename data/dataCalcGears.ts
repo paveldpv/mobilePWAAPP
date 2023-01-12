@@ -4,8 +4,9 @@ export type TCalcGears = {
   mark: String;
   value?: Number;
   control:Boolean
+  ref?:any
 
-  ref?: React.RefObject<HTMLInputElement>;
+  // ref?: React.MutableRefObject<HTMLInputElement>;
   
 };
 export const dataCalcGears: TCalcGears[] = [

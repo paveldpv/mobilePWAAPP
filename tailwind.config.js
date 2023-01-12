@@ -15,10 +15,11 @@ module.exports = {
       colors:{
       current: 'currentColor',
       basisBlack:'#23232D',
+      buttonBlack:'#17181C',
       cardGreen:'#8AC187',
       white:'#FCFFFD',
       orange:'#FED47E',
-      purple:'#FFAAC7',
+      basicPurple:'#FFAAC7',
       blue:'#776AD6',
       justBlack:'17181C'
     },

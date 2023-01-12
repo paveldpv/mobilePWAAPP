@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import React from "react"; 
 
 import InputParamsGears from "../../../components/UI/InputParamsGears";
 import Button from "../../../components/UI/Button";
@@ -10,16 +10,23 @@ type Props = {};
 
 export default function Gears({}: Props) {
 
-  const testRef = useRef(null)
+  const moduleRef = React.createRef()
+   const amountTeethRef = React.createRef()
+    const cornerRef = React.createRef()
+     const KGearsRef = React.createRef()
+      const cornerInitialRef = React.createRef()
+const arrRef = [moduleRef,amountTeethRef,cornerRef,KGearsRef,cornerInitialRef]
   const calcGears = () => {
-    console.log(testRef.current.value);
-    
+   console.log(moduleRef.current.value);
+   console.log(amountTeethRef.current.value);
+   
     
   };
 
   return (
     <div className="flex flex-col items-center">
-      <input type="text" ref={testRef} />
+        
+
       {dataCalcGears.map((item,index) => {
         return (
           item.control && (
@@ -27,8 +34,8 @@ export default function Gears({}: Props) {
               units={item.units}
               mark={item.mark}
               label={item.label}
-              control={item.control}
-              
+              control={item.control}       
+              myref={arrRef[index]}
             />
           )
         );
@@ -45,7 +52,7 @@ export default function Gears({}: Props) {
             />
           )
         );
-      })}
+      })} 
     </div>
   );
 }

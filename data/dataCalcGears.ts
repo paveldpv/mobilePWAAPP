@@ -4,7 +4,7 @@ export type TCalcGears = {
   mark: String;
   value?: Number;
   control:Boolean
-  ref?:any
+  myref?:any
 
   // ref?: React.MutableRefObject<HTMLInputElement>;
   

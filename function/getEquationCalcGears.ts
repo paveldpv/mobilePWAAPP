@@ -43,15 +43,15 @@ export const getLengthCommonNormal = (
   KGearsRef: Number,
   cornerInitialRef: Number
 ): string => {
-  let zk = getCommonNormal(
+  let zn = getCommonNormal(
     amountTeethRef,
     cornerRef,
     KGearsRef,
     cornerInitialRef
   );
-  let zn = getAmountTeeth(amountTeethRef, cornerRef, cornerInitialRef);
- return `${moduleRef}*((pi*(${zn})-pi/2+(tag())))`
-  // return `(${moduleRef})*((pi*(${d})-pi/2+(tan((${cornerInitialRef})/180*pi))-(${cornerInitialRef})/180*pi))*floor(${t})*cos((${cornerInitialRef})/180*pi)+0.014*(((${t})-floor(${t}))+0.684*(${KGearsRef}))`;
-  //!W=m*((π*zn-π/2+(tg (a) -a)*zk’)*cos (a)+0.014*(zk-zk’)+0.684*x)
-  //=D3*((PI()*D11-PI()/2+(TAN(D7/180*PI())-D7/180*PI())*FLOOR(D10;1;1))*COS(D7/180*PI())+0,014*(D10-FLOOR(D10;1;1))+0,684*D6)
+  let zk = getAmountTeeth(amountTeethRef, cornerRef, cornerInitialRef);
+ // return `${moduleRef}*((pi*floor(${zn})-pi/2+(tan(${cornerInitialRef}) -${cornerInitialRef})*floor(${zk}))*cos(${cornerInitialRef})+0.014*(${zk}-floor(${zk}))+0.684*${KGearsRef})`
+ return `${moduleRef}*((pi*floor(${zn})-pi/2+(tan(${cornerInitialRef}/180*pi)-${cornerInitialRef}/180*pi)*floor(${zk}))*cos(${cornerInitialRef}/180*pi)+0.014*(${zk}-floor(${zk}))+0.684*${KGearsRef})`
+  //W=m*((π*zn-π/2+(tg (a) -a)*zk’)*cos (a)+0.014*(zk-zk’)+0.684*x)
+  //!=D3*((PI()*D11-PI()/2+(TAN(D7/180*PI())-D7/180*PI())*FLOOR(D10;1;1))*COS(D7/180*PI())+0,014*(D10-FLOOR(D10;1;1))+0,684*D6)
 };

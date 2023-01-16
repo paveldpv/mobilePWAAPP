@@ -1,0 +1,1 @@
+export const url = `http://api.mathjs.org/v4/`

@@ -25,7 +25,7 @@ export default function Layouts({ children }: Props) {
       </AnimatePresence>
       <AnimatePresence>
         {isVisibleNav && (
-          <motion.div className=" shadow-2xl bg-cardGreen absolute mr-4 top-8 rounded-r-lg "           
+          <motion.div className=" shadow-2xl bg-basisBlack absolute mr-4 top-8 rounded-r-lg "           
             initial={{x: -500}}
             animate={{x: 0}}
             transition={{ delay: 0.3 }}

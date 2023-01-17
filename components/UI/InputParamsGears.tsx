@@ -28,7 +28,7 @@ const InputParamsGears = React.forwardRef(
               className=" text-center text-3xl font-bold rounded-md p-1 w-full h-full"
             />
           ) : (
-            <div className=" text-center text-3xl font-bold rounded-md p-1 w-full h-full">
+            <div className={` text-center  font-bold rounded-md p-1 w-full h-full ${value && value.toString().length>3 ? ' text-xl':'text-3xl'}`}>
               {`${value}`}
             </div>
           )}

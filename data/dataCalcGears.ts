@@ -1,11 +1,13 @@
+import { MutableRefObject } from "react";
+
 export type TCalcGears = {
   label: String;
   units: String;
   mark: String;
   value?: Number;
   control: Boolean;
-  defaultValue?: Number;
-  myref?: React.Ref<HTMLInputElement> | null;
+  defaultValue?: Number;  
+  myref?: MutableRefObject<HTMLInputElement |undefined>|null;
 };
 export const dataCalcGears: TCalcGears[] = [
   {

@@ -1,22 +1,27 @@
-import React, { useRef, useState } from "react";
+import { useRef, useState,useContext } from "react";
+import $axios from "../../../config/axios";
+import {AnimatePresence,motion}from 'framer-motion'
 
+import { ctxVisibleNav } from "../../../components/components/Layouts";
 import InputParamsGears from "../../../components/UI/InputParamsGears";
 import Button from "../../../components/UI/Button";
 import { dataCalcGears } from "../../../data/dataCalcGears";
 
 import {getAmountTeeth,getCommonNormal,getCornerProfile,getLengthCommonNormal} from './../../../function/getEquationCalcGears'
 
-import $axios from "../../../config/axios";
 
 type Props = {};
 
 export default function Gears({}: Props) {
-  const moduleRef = React.createRef<HTMLInputElement>();
-  const amountTeethRef = React.createRef<HTMLInputElement>();
-  const cornerRef = React.createRef<HTMLInputElement>();
-  const KGearsRef = React.createRef<HTMLInputElement>();
-  const cornerInitialRef = React.createRef<HTMLInputElement>();
-  const inputRefs = [
+
+  const isVisibleNav = useContext(ctxVisibleNav)  
+  
+  const moduleRef        = useRef<HTMLInputElement>();
+  const amountTeethRef   = useRef<HTMLInputElement>();
+  const cornerRef        = useRef<HTMLInputElement>();
+  const KGearsRef        = useRef<HTMLInputElement>();
+  const cornerInitialRef = useRef<HTMLInputElement>();
+  const inputRefs        = [
     moduleRef,
     amountTeethRef,
     cornerRef,
@@ -24,10 +29,10 @@ export default function Gears({}: Props) {
     cornerInitialRef,
   ];
 
-  const [outCornerProfileRef, setOutCornerProfileRef] = useState(0);
-  const [outCountTeethRef, setOutCountTeethRef] = useState(0);
-  const [outCountTeethInLengthWRef, setOutCountTeethInLengthWRef] = useState(0);
-  const [outCountW, setOutCountW] = useState(0);
+  const [outCornerProfileRef, setOutCornerProfileRef]             = useState<Number>(0);
+  const [outCountTeethRef, setOutCountTeethRef]                   = useState<Number>(0);
+  const [outCountTeethInLengthWRef, setOutCountTeethInLengthWRef] = useState<Number>(0);
+  const [outCountW, setOutCountW]                                 = useState<Number>(0);
 
   const outputValue = [
     outCornerProfileRef,
@@ -45,51 +50,60 @@ export default function Gears({}: Props) {
     
     let calcGear = {
       expr: [
-        `a=${getCornerProfile(corner,cornerInitial)}`,
-        `b=${getAmountTeeth(amountTeeth,corner,cornerInitial)}`,
-        `c=${getCommonNormal(amountTeeth,corner,KGears,cornerInitial)}`,//round
-        `d=${getLengthCommonNormal(module,amountTeeth,corner,KGears,cornerInitial)}`
+        `${getCornerProfile(corner,cornerInitial)}`,
+        `${getAmountTeeth(amountTeeth,corner,cornerInitial)}`,
+        `${getCommonNormal(amountTeeth,corner,KGears,cornerInitial)}`,//round
+        `${getLengthCommonNormal(module,amountTeeth,corner,KGears,cornerInitial)}`
       ],
-      precision: 14
+      precision: 8
     }
     
-      const t = await $axios.post(``,calcGear)
-      console.log(t);
+      const res = await $axios.post(``,calcGear) 
+      const data= res.data.result as String[]     
+      
+      setOutCornerProfileRef(Number(data[0]))
+      setOutCountTeethRef(Number(data[1]))
+      setOutCountTeethInLengthWRef(Math.round(Number(data[2])))
+      setOutCountW(Number((Number(data[3])).toFixed(2)))
       
   };
 
   return (
-    <div className="flex flex-col items-center">
-      {dataCalcGears.map((item, index) => {
-        return (
-          item.control && (
-            <InputParamsGears
-              key={index}
-              units={item.units}
-              mark={item.mark}
-              label={item.label}
-              control={item.control}
-              myref={inputRefs[index]}
-              defaultValue={item.defaultValue}
-            />
-          )
-        );
-      })}
-      <Button label="Расчитать" handlerClick={calcGears} />
-      {dataCalcGears.map((item, index) => {        
-        return (
-          !item.control && (
-            <InputParamsGears
-              key={index}
-              units={item.units}
-              mark={item.mark}
-              label={item.label}
-              control={item.control}
-              value={outputValue[index-5]}
-            />
-          )
-        );
-      })}
+    <div className=" relative">
+      <AnimatePresence>
+       {!isVisibleNav &&  <motion.div className={` absolute ${isVisibleNav?" -z-10":"z-10"} top-2 flex flex-col items-center`}>
+          {dataCalcGears.map((item, index) => {
+            return (
+              item.control && (
+                <InputParamsGears
+                  key={index}
+                  units={item.units}
+                  mark={item.mark}
+                  label={item.label}
+                  control={item.control}
+                  myref={inputRefs[index]}
+                  defaultValue={item.defaultValue}
+                />
+              )
+            );
+          })}
+          <Button label="Расчитать" handlerClick={calcGears}/>
+          {dataCalcGears.map((item, index) => {
+            return (
+              !item.control && (
+                <InputParamsGears
+                  key={index}
+                  units={item.units}
+                  mark={item.mark}
+                  label={item.label}
+                  control={item.control}
+                  value={outputValue[index-5]}
+                />
+              )
+            );
+          })}
+        </motion.div>}
+      </AnimatePresence>
     </div>
   );
 }

@@ -32,7 +32,7 @@ export default function Nav({setVisibleNav}: Props) {
           animate={"visible"}
           custom={index}
         >
-          <ButtonNav href={nav.href} label={nav.label} />
+          <ButtonNav href={nav.href} label={nav.label} handlerClose={setVisibleNav} />
         </motion.li>
       ))}
     </ul>

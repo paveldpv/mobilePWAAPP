@@ -5,8 +5,10 @@ import ButtonNav from "../UI/ButtonNav";
 
 
 type Props = {
-  setVisibleNav:React.Dispatch<React.SetStateAction<Boolean>>
+  setVisibleNav:()=>void
 };
+
+
 
 export default function Nav({setVisibleNav}: Props) {
   const listNavVariant = {
@@ -20,9 +22,12 @@ export default function Nav({setVisibleNav}: Props) {
       x: -500,
     },
   };
+
+
+
   return (
     <div className="relative">
-      <HiX size={40} className=" absolute -top-48 right-2  text-white" onClick={()=>setVisibleNav(false)}/>
+      <HiX size={40} className=" absolute -top-48 right-2  text-white" onClick={setVisibleNav}/>
       <ul className=" font-SofiaSans p-2 mx-auto text-center h-auto my-48 ">
       {dataNav.map((nav, index) => (
         <motion.li className="text-2xl my-7"
@@ -32,7 +37,7 @@ export default function Nav({setVisibleNav}: Props) {
           animate={"visible"}
           custom={index}
         >
-          <ButtonNav href={nav.href} label={nav.label} handlerClose={setVisibleNav} />
+          <ButtonNav href={nav.href} label={nav.label} handler={setVisibleNav} />
         </motion.li>
       ))}
     </ul>

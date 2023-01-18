@@ -12,6 +12,10 @@ export const ctxVisibleNav = createContext<Boolean>(true);
 export default function Layouts({ children }: Props) {
   const [isVisibleNav, setVisibleNav] = useState<Boolean>(true);
 
+  const closeNavBar = ()=>{
+    setVisibleNav(false)
+  }
+
   return (
     <ctxVisibleNav.Provider value={isVisibleNav}>
       <div className=" h-screen overflow-hidden w-screen relative bg-basisBlack  ">
@@ -40,7 +44,7 @@ export default function Layouts({ children }: Props) {
               transition={{ delay: 0.3 }}
               exit={{ x: -500 }}
             >
-              <Nav setVisibleNav={setVisibleNav} />
+              <Nav setVisibleNav={closeNavBar} />
             </motion.div>
           )}
         </AnimatePresence>

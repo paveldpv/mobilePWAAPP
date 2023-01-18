@@ -7,7 +7,7 @@ export type TCalcGears = {
   value?: Number;
   control: Boolean;
   defaultValue?: Number;  
-  myref?: MutableRefObject<HTMLInputElement |undefined>|null;
+  myref?: MutableRefObject<HTMLInputElement >|null;
 };
 export const dataCalcGears: TCalcGears[] = [
   {

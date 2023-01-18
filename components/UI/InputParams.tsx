@@ -1,7 +1,7 @@
 import { TCalcGears } from "../../data/dataCalcGears";
 import React from "react";
 
-const InputParamsGears = React.forwardRef(
+const InputParams = React.forwardRef(
   ({ label, mark, units, control, myref, defaultValue, value }: TCalcGears) => {
     
     return (
@@ -28,7 +28,7 @@ const InputParamsGears = React.forwardRef(
               className=" text-center text-3xl font-bold rounded-md p-1 w-full h-full"
             />
           ) : (
-            <div className={` text-center  font-bold rounded-md p-1 w-full h-full ${value && value.toString().length>3 ? ' text-xl':'text-3xl'}`}>
+            <div className={` text-center  font-bold rounded-md p-1 w-full h-full ${value&& value.toString().length>3 ? ' text-xl':'text-3xl'}`}>
               {`${value}`}
             </div>
           )}
@@ -38,4 +38,4 @@ const InputParamsGears = React.forwardRef(
   }
 );
 
-export default InputParamsGears;
+export default InputParams;

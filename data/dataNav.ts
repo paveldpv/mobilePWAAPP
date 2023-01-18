@@ -1,7 +1,8 @@
 export type TNav = {
   label: string;
   href: string;
-  handlerClose?:React.Dispatch<React.SetStateAction<Boolean>>
+  handler?:()=>void
+  params?:any
 };
 
 export const dataNav: TNav[] = [

@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import { HiX } from "react-icons/hi";
 import { dataNav } from "../../data/dataNav";
 import ButtonNav from "../UI/ButtonNav";
-
+import {variantLeftOpacity} from './../../FrameVariants/variantLeftOpacity'
 
 type Props = {
   setVisibleNav:()=>void
@@ -11,18 +11,6 @@ type Props = {
 
 
 export default function Nav({setVisibleNav}: Props) {
-  const listNavVariant = {
-    visible: (i: Number) => ({
-      x: 0,
-      transition: {
-        delay: Number(i) * 0.5,
-      },
-    }),
-    hidden: {
-      x: -500,
-    },
-  };
-
 
 
   return (
@@ -32,7 +20,7 @@ export default function Nav({setVisibleNav}: Props) {
       {dataNav.map((nav, index) => (
         <motion.li className="text-2xl my-7"
           key={index}
-          variants={listNavVariant}
+          variants={variantLeftOpacity}
           initial={"hidden"}
           animate={"visible"}
           custom={index}

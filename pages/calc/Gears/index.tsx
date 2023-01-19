@@ -7,6 +7,8 @@ import InputParams from "../../../components/UI/InputParams";
 import Button from "../../../components/UI/Button";
 import { dataCalcGears } from "../../../data/dataCalcGears";
 
+import { variantTopOpacity } from "../../../FrameVariants/variantTopOpacity";
+
 import {
   getAmountTeeth,
   getCommonNormal,
@@ -82,21 +84,11 @@ export default function Gears({}: Props) {
       <AnimatePresence>
         {!isVisibleNav && (
           <motion.div
-            initial={{
-              y: -900,
-            }}
-            animate={{
-              y: 0,
-            }}
-            transition={{
-              delay: 0.5,
-            }}
-            exit={{
-              x: -500,
-            }}
-            className={` absolute ${
-              isVisibleNav ? " -z-10" : "z-10"
-            } top-2 flex flex-col items-center`}
+            variants={variantTopOpacity}
+            initial={'hidden'}            
+            exit={'exit'}
+            animate={'visible'}
+            className={` absolute z-10 top-2 flex flex-col items-center`}
           >
             {dataCalcGears.map((item, index) => {
               return (
@@ -107,7 +99,7 @@ export default function Gears({}: Props) {
                     mark={item.mark}
                     label={item.label}
                     control={item.control}
-                    myref={inputRefs[index]}
+                    ref={inputRefs[index]}
                     defaultValue={item.defaultValue}
                   />
                 )

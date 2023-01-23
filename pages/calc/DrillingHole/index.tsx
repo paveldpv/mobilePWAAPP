@@ -27,10 +27,7 @@ export default function DrillingHole({}: Props) {
   const goToCalcDrilling = () => {
     let diameter = refDiameter.current?.value;
     let amountPointer  =refAmountPointer.current?.value;
-    let manual = refManualChecked.current?.checked
-   //console.log(refDiameter);
-    // console.log(refManualChecked?.current?.checked);
-    
+    let manual = refManualChecked.current?.checked    
     Router.push(`/calc/DrillingHole/params?D=${diameter}&N=${amountPointer}&manual=${manual}`)
   };
 

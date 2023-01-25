@@ -4,10 +4,10 @@ export type TCalcGears = {
   label: String;
   units: String;
   mark: String;
-  value?: Number;
+  value?: number;
   control: Boolean;
   defaultValue?: Number;  
-  myref?: MutableRefObject<HTMLInputElement >|null;
+ // myref?: MutableRefObject<HTMLInputElement >|null;
   ref?:MutableRefObject<HTMLInputElement >|null;
 };
 export const dataCalcGears: TCalcGears[] = [

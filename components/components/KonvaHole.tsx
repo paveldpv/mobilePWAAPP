@@ -6,6 +6,8 @@ import { getCoordinate } from "../../function/getCoordinate";
 import CoordinatePoints from "./CoordinatePoints";
 import FieldCoordinate from "./FieldCoordinate";
 
+import Konva from "konva";
+
 export type TKonvaHole = {
   diameter?: number;
   amountPointer?: number;
@@ -70,15 +72,19 @@ export default function KonvaHole({
         };
         result.push(point);
       }
+      console.log(result);
       setPoints(result);
     };
+    
+    
     calcStaticPoint();
-  }, []);
+  }, [manual]);
 
   const changeActivePoint = (id: number): void => {
     let activePoints = points?.map((point) =>
       point.id == id ? { ...point, active: true } : { ...point, active: false }
-    );
+    );   
+    
     setPoints(activePoints);
   };
   const changeCompleted = (id: number): void => {
@@ -87,7 +93,12 @@ export default function KonvaHole({
     );
     setPoints(activePoints);
   };
-  const changeManualCarrier = (id: number): void => {};
+  const changeManualCarrier = (e:Konva.KonvaEventObject<DragEvent> ,id: number): void => {
+    console.log(id);
+    console.log(e);
+    
+    
+  };
 
   return (
     <div>
@@ -107,6 +118,8 @@ export default function KonvaHole({
               completed={point.completed}
               changeActivePoint={changeActivePoint}
               changeCompleted={changeCompleted}
+              changeCarrier={changeManualCarrier}
+              radius={radius}
             />
           ))}
           <FieldCoordinate

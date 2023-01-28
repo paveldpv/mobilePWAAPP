@@ -2,7 +2,7 @@ import { TCalcGears } from "../../data/dataCalcGears";
 import React from "react";
 
 const InputParams = React.forwardRef(
-  ({ label, mark, units, control, myref, defaultValue, value  }: TCalcGears,ref) => {
+  ({ label, mark, units, control,  defaultValue, value  }: TCalcGears,ref) => {
     
     return (
       <div

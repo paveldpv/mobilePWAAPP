@@ -66,7 +66,7 @@ export default function CalcDrillingHole({}: Props) {
             <div className=" p-4 mt-4 text-white font-SofiaSans border-t-2 ml-2 mr-2">
               {dataParams.map((param, index) => {
                 return (
-                  <ul>
+                  <ul key={index}>
                     <li className=" p-1 text-2xl text-center">
                       <p>
                         <span className=" font-bold ">{param.label}</span> :

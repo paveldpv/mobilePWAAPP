@@ -1,15 +1,16 @@
 import { useEffect, useState } from "react";
-import { Stage, Layer, Circle, Text, Arrow } from "react-konva";
+import { Stage, Layer } from "react-konva";
 
 import { getCoordinate } from "../../function/getCoordinate";
 
 import CoordinatePoints from "./CoordinatePoints";
+import FieldCoordinate from "./FieldCoordinate";
 
 export type TKonvaHole = {
   diameter?: number;
   amountPointer?: number;
   manual?: boolean;
-  initialCarrier?:number
+  initialCarrier?: number;
 };
 
 export type TCoordinate = {
@@ -26,41 +27,49 @@ export type TPoint = {
   carrier: number;
   manual: boolean;
   active?: boolean;
+  completed: boolean;
 };
 
-export default function Konva({ amountPointer, diameter, manual,initialCarrier }: TKonvaHole) {
+export default function KonvaHole({
+  amountPointer,
+  diameter,
+  manual,
+  initialCarrier,
+}: TKonvaHole) {
   const globalCenterX = window.innerWidth / 2;
   const globalCenterY = window.innerHeight / 3;
 
-  const radius = (window.innerWidth + window.innerHeight) / 7;
+  const radius = (window.innerWidth + window.innerHeight) / 7; //начальный радиус рисованого круга
 
   const [points, setPoints] = useState<TPoint[]>();
 
   useEffect(() => {
     const calcStaticPoint = () => {
-      if (!amountPointer || !diameter) return;
-      let currentCarrier = 360 / +amountPointer;
+      if (!amountPointer || !diameter || !initialCarrier) return;
+      let gapCarrier = 360 / amountPointer;
       let result = new Array<TPoint>();
       for (let i = 0; i < amountPointer; i++) {
+        let currentCarrier: number =
+          i == +0 ? initialCarrier : +initialCarrier + gapCarrier * i;
         let point: TPoint = {
           active: i == 0,
           id: i,
           manual: manual ? manual : false,
-          carrier: currentCarrier * (i + 1),
+          carrier: currentCarrier,
           coordinate: {
             absolute: {
               x: getCoordinate(currentCarrier, diameter / 2, i).x,
-              y: getCoordinate(currentCarrier, diameter / 2, i).y,
+              y: -getCoordinate(currentCarrier, diameter / 2, i).y,
             },
             relative: {
               x: getCoordinate(currentCarrier, radius, i).x + globalCenterX,
-              y: getCoordinate(currentCarrier, radius, i).y + globalCenterY,
+              y: -getCoordinate(currentCarrier, radius, i).y + globalCenterY,
             },
           },
+          completed: false,
         };
         result.push(point);
       }
-
       setPoints(result);
     };
     calcStaticPoint();
@@ -70,20 +79,20 @@ export default function Konva({ amountPointer, diameter, manual,initialCarrier }
     let activePoints = points?.map((point) =>
       point.id == id ? { ...point, active: true } : { ...point, active: false }
     );
-
     setPoints(activePoints);
   };
+  const changeCompleted = (id: number): void => {
+    let activePoints = points?.map((point) =>
+      point.id == id ? { ...point, completed: true } : point
+    );
+    setPoints(activePoints);
+  };
+  const changeManualCarrier = (id: number): void => {};
 
   return (
-    <div className="">
+    <div>
       <Stage width={window.innerWidth} height={window.innerHeight / 1.5}>
         <Layer>
-          <Circle
-            x={globalCenterX}
-            y={globalCenterY}
-            radius={radius}
-            stroke="#776AD6"
-          />
           {points?.map((point, index) => (
             <CoordinatePoints
               id={point.id}
@@ -95,36 +104,15 @@ export default function Konva({ amountPointer, diameter, manual,initialCarrier }
               globalCenterX={globalCenterX}
               globalCenterY={globalCenterY}
               active={point.active}
+              completed={point.completed}
               changeActivePoint={changeActivePoint}
+              changeCompleted={changeCompleted}
             />
           ))}
-          <Arrow
-            dash={[33, 10]}
-            stroke={`#FCFFFD`}
-            y={globalCenterY}
-            x={globalCenterX}
-            points={[-radius - 18, 0, radius + 18, 0]}
-          />
-          <Text
-            x={globalCenterX + radius + 5}
-            y={globalCenterY + 10}
-            fontSize={24}
-            text="X"
-            fill="#FCFFFD"
-          />
-          <Arrow
-            dash={[33, 10]}
-            stroke={`#FCFFFD`}
-            y={globalCenterY}
-            x={globalCenterX}
-            points={[0, radius + 18, 0, -radius - 55]}
-          />
-          <Text
-            x={globalCenterX + 10}
-            y={globalCenterY - radius - 40}
-            text="Y"
-            fontSize={24}
-            fill="#FCFFFD"
+          <FieldCoordinate
+            globalCenterX={globalCenterX}
+            globalCenterY={globalCenterY}
+            radius={radius}
           />
         </Layer>
       </Stage>

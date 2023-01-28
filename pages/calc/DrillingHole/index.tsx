@@ -24,17 +24,14 @@ export default function DrillingHole({}: Props) {
   let refDiameter = useRef<HTMLInputElement>();
   let refAmountPointer = useRef<HTMLInputElement>();
   let refInitialCarrier = useRef<HTMLInputElement>();
-  let inputRefs =[
-    refDiameter,refAmountPointer,refInitialCarrier
-  ]
+  let inputRefs = [refDiameter, refAmountPointer, refInitialCarrier];
   let refManualChecked = useRef<HTMLInputElement>();
-
 
   const goToCalcDrilling = () => {
     let diameter = refDiameter.current?.value;
     let amountPointer = refAmountPointer.current?.value;
     let manual = refManualChecked.current?.checked;
-	 let initialCarrier=refInitialCarrier.current?.value
+    let initialCarrier = refInitialCarrier.current?.value;
     Router.push(
       `/calc/DrillingHole/params?D=${diameter}&N=${amountPointer}&manual=${manual}&initialcarrier=${initialCarrier}`
     );
@@ -51,18 +48,18 @@ export default function DrillingHole({}: Props) {
             animate={"visible"}
             className="absolute z-10 top-52 flex flex-col items-center "
           >
-            {dataDrillingHole.map((param,index)=>{
-              return(
+            {dataDrillingHole.map((param, index) => {
+              return (
                 <InputParamsGears
-                label={param.label}
-                mark={param.mark}
-                units={param.units}
-                control={param.control}
-                defaultValue={param.defaultValue}
-                ref={inputRefs[index]}
+                  label={param.label}
+                  mark={param.mark}
+                  units={param.units}
+                  control={param.control}
+                  defaultValue={param.defaultValue}
+                  ref={inputRefs[index]}
                 />
-              )
-            })}            
+              );
+            })}
             <InputCheckbox label={"Вручную"} ref={refManualChecked} />
             <Button label={`Расчитать`} handlerClick={goToCalcDrilling} />
           </motion.div>

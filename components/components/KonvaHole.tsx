@@ -105,7 +105,7 @@ export default function KonvaHole({
   ): void => {
     trRef.current?.nodes([pointsRefs[id].current])
     console.log(pointsRefs[id].current);
-    
+    //иуывф
 
     
    

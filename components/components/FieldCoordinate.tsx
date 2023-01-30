@@ -1,10 +1,13 @@
-import {Group,Circle,Arrow,Text}from 'react-konva'
+import { Group, Circle, Arrow, Text } from "react-konva";
+import { forwardRef,RefObject } from "react";
+
 
 type TFiletCoordinate = {
-   globalCenterY:number,
-   globalCenterX:number,
-   radius:number
-}
+  globalCenterY: number;
+  globalCenterX: number;
+  radius: number;
+};
+
 
 export default function FieldCoordinate({radius,globalCenterX,globalCenterY}: TFiletCoordinate) {
   return (

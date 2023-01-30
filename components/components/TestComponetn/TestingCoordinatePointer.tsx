@@ -1,4 +1,4 @@
-import { Circle, Group, Transformer } from "react-konva";
+import { Circle, Group, Transformer ,Shape} from "react-konva";
 import Konva from "konva";
 import { useRef, useEffect, RefObject, forwardRef, ForwardedRef } from "react";
 import { TPoint } from "../KonvaHole";
@@ -9,34 +9,63 @@ import LineIndicatorPoint from "../LineIndicatorPoint";
 import { KonvaEventObject } from "konva/lib/Node";
 
 const TestingCoordinatePoint = forwardRef(
-  ({
-    id,
-    manual,
-    coordinate,
-    carrier,
-    pointRadius,
-    globalCenterX,
-    globalCenterY,
-    active,
-    changeActivePoint,
-    completed,
-    changeCompleted,
-    changeCarrier,
-    radius,
-  }: TPoint & {
-    radius: number;
-    pointRadius: number;
-    globalCenterX: number;
-    globalCenterY: number;
-    changeActivePoint: (id: number) => void;
-    changeCompleted: (id: number) => void;
-    changeCarrier: (e: Konva.KonvaEventObject<DragEvent>, id: number) => void;
-  },ref) => {
+  (
+    {
+      id,
+      manual,
+      coordinate,
+      carrier,
+      pointRadius,
+      globalCenterX,
+      globalCenterY,
+      active,
+      changeActivePoint,
+      completed,
+      changeCompleted,
+      changeCarrier,
+      radius,
+    }: TPoint & {
+      radius: number;
+      pointRadius: number;
+      globalCenterX: number;
+      globalCenterY: number;
+      changeActivePoint: (id: number) => void;
+      changeCompleted: (id: number) => void;
+      changeCarrier: (
+        e: Konva.KonvaEventObject<DragEvent>,
+        id: number,
+        ref: ForwardedRef<Konva.Circle>
+      ) => void;
+    },
+    ref: ForwardedRef<Konva.Circle>
+  ) => {
+    const refCircle = useRef<Konva.Circle>(null);
+    useEffect(() => {
+      
+      refCircle.current?.addEventListener("dragmove", () => {
+        var x = globalCenterX;
+        var y = globalCenterY;
+        const pos = refCircle.current?.absolutePosition();
+
+        var scale =
+          radius /
+          Math.sqrt(
+            Math.pow(Number(pos?.x) - x, 2) + Math.pow(Number(pos?.y) - y, 2)
+          );
+
+        if (scale < 1 || scale > 1) {
+          refCircle.current?.x(Math.round((Number(pos?.x) - x) * scale + x));
+          refCircle.current?.y(Math.round((Number(pos?.y) - y) * scale + y));
+        }
+      });
+    }, []);
+
     const { absolute, relative } = coordinate;
 
     return (
-      <Group >
-        <Circle ref={ref}
+      <Group ref={ref}>        
+        <Circle
+          ref={refCircle}
           onClick={() => changeActivePoint(id)}
           onTap={() => changeActivePoint(id)}
           onDblClick={() => changeCompleted(id)}
@@ -48,7 +77,7 @@ const TestingCoordinatePoint = forwardRef(
           stroke={completed ? `` : "#23232D"}
           strokeWidth={22}
           draggable={manual}
-          onDragEnd={(e) => changeCarrier(e, id)}
+          onDragMove={(e) => changeCarrier(e, id, ref)}
         />
         {absolute.x != 0 && absolute.y != 0 && (
           <LineIndicatorPoint
@@ -65,4 +94,4 @@ const TestingCoordinatePoint = forwardRef(
     );
   }
 );
-export default TestingCoordinatePoint
+export default TestingCoordinatePoint;

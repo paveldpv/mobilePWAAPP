@@ -1,6 +1,6 @@
 import { Circle, Group, Transformer } from "react-konva";
 import Konva from "konva";
-import { useRef, useEffect, RefObject,forwardRef,ForwardedRef } from "react";
+import { useRef, useEffect, RefObject, forwardRef, ForwardedRef } from "react";
 import { TPoint } from "./KonvaHole";
 
 import { getCenterVector } from "../../function/getCenterVector";
@@ -8,10 +8,7 @@ import { getCenterVector } from "../../function/getCenterVector";
 import LineIndicatorPoint from "./LineIndicatorPoint";
 import { KonvaEventObject } from "konva/lib/Node";
 
-
-
-
- function CoordinatePoints({
+function CoordinatePoints({
   id,
   manual,
   coordinate,
@@ -34,9 +31,6 @@ import { KonvaEventObject } from "konva/lib/Node";
   changeCompleted: (id: number) => void;
   changeCarrier: (e: Konva.KonvaEventObject<DragEvent>, id: number) => void;
 }) {
-
-  
-  
   const refCircle = useRef<Konva.Circle>(null);
   // const trRef = useRef<Konva.Transformer>(null);
 
@@ -47,8 +41,6 @@ import { KonvaEventObject } from "konva/lib/Node";
       var x = globalCenterX;
       var y = globalCenterY;
       const pos = refCircle.current?.absolutePosition();
-      // trRef?.current?.nodes([refCircle.current]);
-      // trRef.current?.getLayer()?.batchDraw();
 
       var scale =
         radius /
@@ -64,24 +56,7 @@ import { KonvaEventObject } from "konva/lib/Node";
   }, []);
 
   return (
-    <Group >
-      {/* {manual && (
-        <Transformer
-          ref={trRef as RefObject<Konva.Transform | any>}
-          x={globalCenterX}
-          y={globalCenterY}
-          rotationSnapTolerance={10}          
-          resizeEnabled={false}
-          rotationSnaps={[45,90,135,180,225,270,360]}
-          onTransform={(e:KonvaEventObject<Event>)=>{
-            console.log(e.target.rotation())
-            console.log(e);
-            
-          }}
-          anchorCornerRadius={radius}
-        />
-      )} */}
-
+    <Group>
       <Circle
         ref={refCircle as RefObject<Konva.Circle | any>}
         onClick={() => changeActivePoint(id)}
@@ -111,4 +86,4 @@ import { KonvaEventObject } from "konva/lib/Node";
     </Group>
   );
 }
-export default forwardRef(CoordinatePoints)
+export default forwardRef(CoordinatePoints);

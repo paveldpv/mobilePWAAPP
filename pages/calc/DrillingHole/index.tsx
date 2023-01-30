@@ -32,6 +32,8 @@ export default function DrillingHole({}: Props) {
     let amountPointer = refAmountPointer.current?.value;
     let manual = refManualChecked.current?.checked;
     let initialCarrier = refInitialCarrier.current?.value;
+    console.log(`index params manual`,manual);
+    
     Router.push(
       `/calc/DrillingHole/params?D=${diameter}&N=${amountPointer}&manual=${manual}&initialcarrier=${initialCarrier}`
     );

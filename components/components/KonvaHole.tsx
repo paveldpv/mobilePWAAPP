@@ -9,10 +9,10 @@ import FieldCoordinate from "./FieldCoordinate";
 import Konva from "konva";
 
 export type TKonvaHole = {
-  diameter?: number;
-  amountPointer?: number;
-  manual?: boolean;
-  initialCarrier?: number;
+  diameter: number;
+  amountPointer: number;
+  manual: boolean;
+  initialCarrier: number;
 };
 
 export type TCoordinate = {
@@ -47,7 +47,6 @@ export default function KonvaHole({
 
   useEffect(() => {
     const calcStaticPoint = () => {
-      if (!amountPointer || !diameter || !initialCarrier) return;
       let gapCarrier = 360 / amountPointer;
       let result = new Array<TPoint>();
       for (let i = 0; i < amountPointer; i++) {
@@ -56,7 +55,7 @@ export default function KonvaHole({
         let point: TPoint = {
           active: i == 0,
           id: i,
-          manual: manual ? manual : false,
+          manual: manual,
           carrier: currentCarrier,
           coordinate: {
             absolute: {
@@ -70,21 +69,21 @@ export default function KonvaHole({
           },
           completed: false,
         };
+
         result.push(point);
       }
-      console.log(result);
+
       setPoints(result);
     };
-    
-    
+
     calcStaticPoint();
   }, [manual]);
 
   const changeActivePoint = (id: number): void => {
     let activePoints = points?.map((point) =>
       point.id == id ? { ...point, active: true } : { ...point, active: false }
-    );   
-    
+    );
+
     setPoints(activePoints);
   };
   const changeCompleted = (id: number): void => {
@@ -93,11 +92,12 @@ export default function KonvaHole({
     );
     setPoints(activePoints);
   };
-  const changeManualCarrier = (e:Konva.KonvaEventObject<DragEvent> ,id: number): void => {
+  const changeManualCarrier = (
+    e: Konva.KonvaEventObject<DragEvent>,
+    id: number
+  ): void => {
     console.log(id);
     console.log(e);
-    
-    
   };
 
   return (

@@ -21,11 +21,11 @@ type Props = {};
 export default function Gears({}: Props) {
   const isVisibleNav = useContext(ctxVisibleNav);
 
-  const moduleRef = useRef<HTMLInputElement>();
-  const amountTeethRef = useRef<HTMLInputElement>();
-  const cornerRef = useRef<HTMLInputElement>();
-  const KGearsRef = useRef<HTMLInputElement>();
-  const cornerInitialRef = useRef<HTMLInputElement>();
+  const moduleRef = useRef<HTMLInputElement >(null);
+  const amountTeethRef = useRef<HTMLInputElement>(null);
+  const cornerRef = useRef<HTMLInputElement>(null);
+  const KGearsRef = useRef<HTMLInputElement>(null);
+  const cornerInitialRef = useRef<HTMLInputElement>(null);
   const inputRefs = [
     moduleRef,
     amountTeethRef,
@@ -34,11 +34,11 @@ export default function Gears({}: Props) {
     cornerInitialRef,
   ];
 
-  const [outCornerProfileRef, setOutCornerProfileRef] = useState<Number>(0);
-  const [outCountTeethRef, setOutCountTeethRef] = useState<Number>(0);
+  const [outCornerProfileRef, setOutCornerProfileRef] = useState<number>(0);
+  const [outCountTeethRef, setOutCountTeethRef] = useState<number>(0);
   const [outCountTeethInLengthWRef, setOutCountTeethInLengthWRef] =
-    useState<Number>(0);
-  const [outCountW, setOutCountW] = useState<Number>(0);
+    useState<number>(0);
+  const [outCountW, setOutCountW] = useState<number>(0);
 
   const outputValue = [
     outCornerProfileRef,

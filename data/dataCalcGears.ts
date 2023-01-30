@@ -6,7 +6,7 @@ export type TCalcGears = {
   mark: String;
   value?: number;
   control: Boolean;
-  defaultValue?: Number;  
+  defaultValue?: number;  
  // myref?: MutableRefObject<HTMLInputElement >|null;
   ref?:MutableRefObject<HTMLInputElement >|null;
 };

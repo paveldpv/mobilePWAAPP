@@ -20,12 +20,14 @@ const NoSSRComponent = dynamic(
 );
 
 export default function CalcDrillingHole({}: Props) {
-  const params = useRouter();
-  let diameter = params.query.D as number | undefined;
-  let amountPointer = params.query.N as number | undefined;
-  let manual = params.query.manual as boolean | undefined;
-  let initialCarrier = params.query.initialcarrier as number | undefined;
-  let dataParams: Pick<TCalcGears, "label" | "value" | "units">[] = [
+  const params                      = useRouter();
+  let   diameter                    = Number(params.query.D);
+  let   amountPointer               = Number(params.query.N);
+  let   manual                      = !!JSON.parse(params.query.manual as string) ;
+  let   initialCarrier              = Number(params.query.initialcarrier);
+  
+  
+  let   dataParams: Pick<TCalcGears, "label" | "value" | "units">[] = [
     {
       label: `Диаметр`,
       value: diameter || 0,
@@ -60,7 +62,7 @@ export default function CalcDrillingHole({}: Props) {
                 amountPointer={amountPointer}
                 diameter={diameter}
                 manual={manual}
-                initialCarrier = {initialCarrier}
+                initialCarrier={initialCarrier}
               />
             </div>
             <div className=" p-4 mt-4 text-white font-SofiaSans border-t-2 ml-2 mr-2">
@@ -72,7 +74,9 @@ export default function CalcDrillingHole({}: Props) {
                         <span className=" font-bold ">{param.label}</span> :
                         <span className=" pl-2 ">
                           {param.value}
-                          <span className=" font-Lobster text-xs pl-1">{param.units}</span>
+                          <span className=" font-Lobster text-xs pl-1">
+                            {param.units}
+                          </span>
                         </span>
                       </p>
                     </li>

@@ -1,11 +1,12 @@
 import { Circle, Group, Transformer } from "react-konva";
 import Konva from "konva";
-import { useRef, useEffect, createRef } from "react";
+import { useRef, useEffect, RefObject } from "react";
 import { TPoint } from "./KonvaHole";
 
 import { getCenterVector } from "../../function/getCenterVector";
 
 import LineIndicatorPoint from "./LineIndicatorPoint";
+import { KonvaEventObject } from "konva/lib/Node";
 
 export default function CoordinatePoints({
   id,
@@ -30,16 +31,18 @@ export default function CoordinatePoints({
   changeCompleted: (id: number) => void;
   changeCarrier: (e: Konva.KonvaEventObject<DragEvent>, id: number) => void;
 }) {
-  const refCircle = useRef<Konva.Stage>() || null;
+  const refCircle = useRef<Konva.Circle>(null);
+  const trRef = useRef<Konva.Transformer>(null);
 
   const { absolute, relative } = coordinate;
 
   useEffect(() => {
-    
     refCircle.current?.addEventListener("dragmove", () => {
       var x = globalCenterX;
       var y = globalCenterY;
       const pos = refCircle.current?.absolutePosition();
+      trRef?.current?.nodes([refCircle.current]);
+      trRef.current?.getLayer()?.batchDraw();
 
       var scale =
         radius /
@@ -56,8 +59,25 @@ export default function CoordinatePoints({
 
   return (
     <Group>
+      {manual && (
+        <Transformer
+          ref={trRef as RefObject<Konva.Transform | any>}
+          x={globalCenterX}
+          y={globalCenterY}
+          rotationSnapTolerance={10}          
+          resizeEnabled={false}
+          rotationSnaps={[45,90,135,180,225,270,360]}
+          onTransform={(e:KonvaEventObject<Event>)=>{
+            console.log(e.target.rotation())
+            console.log(e);
+            
+          }}
+          anchorCornerRadius={radius}
+        />
+      )}
+
       <Circle
-        ref={refCircle}
+        ref={refCircle as RefObject<Konva.Circle | any>}
         onClick={() => changeActivePoint(id)}
         onTap={() => changeActivePoint(id)}
         onDblClick={() => changeCompleted(id)}
@@ -69,9 +89,7 @@ export default function CoordinatePoints({
         stroke={completed ? `` : "#23232D"}
         strokeWidth={22}
         draggable={manual}
-        // draggable={manual}
-        onDragStart={(e) => changeCarrier(e, id)}
-        // onDragEnd={}
+        onDragEnd={(e) => changeCarrier(e, id)}
       />
       {absolute.x != 0 && absolute.y != 0 && (
         <LineIndicatorPoint

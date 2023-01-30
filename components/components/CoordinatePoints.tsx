@@ -1,6 +1,6 @@
 import { Circle, Group, Transformer } from "react-konva";
 import Konva from "konva";
-import { useRef, useEffect, RefObject } from "react";
+import { useRef, useEffect, RefObject,forwardRef,ForwardedRef } from "react";
 import { TPoint } from "./KonvaHole";
 
 import { getCenterVector } from "../../function/getCenterVector";
@@ -8,7 +8,10 @@ import { getCenterVector } from "../../function/getCenterVector";
 import LineIndicatorPoint from "./LineIndicatorPoint";
 import { KonvaEventObject } from "konva/lib/Node";
 
-export default function CoordinatePoints({
+
+
+
+ function CoordinatePoints({
   id,
   manual,
   coordinate,
@@ -31,8 +34,11 @@ export default function CoordinatePoints({
   changeCompleted: (id: number) => void;
   changeCarrier: (e: Konva.KonvaEventObject<DragEvent>, id: number) => void;
 }) {
+
+  
+  
   const refCircle = useRef<Konva.Circle>(null);
-  const trRef = useRef<Konva.Transformer>(null);
+  // const trRef = useRef<Konva.Transformer>(null);
 
   const { absolute, relative } = coordinate;
 
@@ -41,8 +47,8 @@ export default function CoordinatePoints({
       var x = globalCenterX;
       var y = globalCenterY;
       const pos = refCircle.current?.absolutePosition();
-      trRef?.current?.nodes([refCircle.current]);
-      trRef.current?.getLayer()?.batchDraw();
+      // trRef?.current?.nodes([refCircle.current]);
+      // trRef.current?.getLayer()?.batchDraw();
 
       var scale =
         radius /
@@ -58,8 +64,8 @@ export default function CoordinatePoints({
   }, []);
 
   return (
-    <Group>
-      {manual && (
+    <Group >
+      {/* {manual && (
         <Transformer
           ref={trRef as RefObject<Konva.Transform | any>}
           x={globalCenterX}
@@ -74,7 +80,7 @@ export default function CoordinatePoints({
           }}
           anchorCornerRadius={radius}
         />
-      )}
+      )} */}
 
       <Circle
         ref={refCircle as RefObject<Konva.Circle | any>}
@@ -105,3 +111,4 @@ export default function CoordinatePoints({
     </Group>
   );
 }
+export default forwardRef(CoordinatePoints)

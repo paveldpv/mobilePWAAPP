@@ -1,7 +1,7 @@
 import { TCalcGears } from "../../data/dataCalcGears";
-import React ,{RefObject} from "react";
+import React ,{RefObject,forwardRef} from "react";
 
-const InputParams = React.forwardRef(
+const InputParams = forwardRef(
   ({ label, mark, units, control,  defaultValue, value  }: TCalcGears,ref) => {
     
     return (

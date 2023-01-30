@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import { Stage, Layer } from "react-konva";
+import { useEffect, useState, useRef, RefObject } from "react";
+import { Stage, Layer, Transformer } from "react-konva";
 
 import { getCoordinate } from "../../function/getCoordinate";
 
@@ -7,6 +7,11 @@ import CoordinatePoints from "./CoordinatePoints";
 import FieldCoordinate from "./FieldCoordinate";
 
 import Konva from "konva";
+
+import { KonvaEventObject } from "konva/lib/Node";
+
+
+import TestingCoordinatePoint from "./TestComponetn/TestingCoordinatePointer";
 
 export type TKonvaHole = {
   diameter: number;
@@ -43,6 +48,9 @@ export default function KonvaHole({
 
   const radius = (window.innerWidth + window.innerHeight) / 7; //начальный радиус рисованого круга
 
+  const trRef = useRef<Konva.Transformer>(null);
+  const pointRef = useRef<Konva.Group>(null);
+
   const [points, setPoints] = useState<TPoint[]>();
 
   useEffect(() => {
@@ -69,11 +77,13 @@ export default function KonvaHole({
           },
           completed: false,
         };
-
         result.push(point);
       }
-
       setPoints(result);
+      console.log(trRef.current);
+      
+      
+      
     };
 
     calcStaticPoint();
@@ -104,6 +114,30 @@ export default function KonvaHole({
     <div>
       <Stage width={window.innerWidth} height={window.innerHeight / 1.5}>
         <Layer>
+          {manual && <Transformer ref={trRef}/>}
+                   
+          {points?.map((point, index) => (
+            <TestingCoordinatePoint
+              id={point.id}
+              carrier={point.carrier}
+              key={point.id}
+              manual={point.manual}
+              coordinate={point.coordinate}
+              pointRadius={radius / 18}
+              globalCenterX={globalCenterX}
+              globalCenterY={globalCenterY}
+              active={point.active}
+              completed={point.completed}
+              changeActivePoint={changeActivePoint}
+              changeCompleted={changeCompleted}
+              changeCarrier={changeManualCarrier}
+              radius={radius}
+              ref={pointRef}
+            />
+          ))}
+          
+          
+{/*          
           {points?.map((point, index) => (
             <CoordinatePoints
               id={point.id}
@@ -120,8 +154,9 @@ export default function KonvaHole({
               changeCompleted={changeCompleted}
               changeCarrier={changeManualCarrier}
               radius={radius}
+              // ref={index==0 && pointRef}
             />
-          ))}
+          ))} */}
           <FieldCoordinate
             globalCenterX={globalCenterX}
             globalCenterY={globalCenterY}

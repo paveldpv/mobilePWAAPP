@@ -1,14 +1,13 @@
 import { useEffect, useState, useRef, RefObject, ForwardedRef } from "react";
-import { Stage, Layer, Transformer ,Group} from "react-konva";
+import { Stage, Layer, Transformer, Group, Shape } from "react-konva";
 
 import { getCoordinate } from "../../function/getCoordinate";
 
 import CoordinatePoints from "./CoordinatePoints";
+import ManualCoordinatePoints from "./ManualCoordinatePoints";
 import FieldCoordinate from "./FieldCoordinate";
 
 import Konva from "konva";
-
-import { KonvaEventObject } from "konva/lib/Node";
 
 import TestingCoordinatePoint from "./TestComponetn/TestingCoordinatePointer";
 
@@ -48,8 +47,9 @@ export default function KonvaHole({
   const radius = (window.innerWidth + window.innerHeight) / 7; //начальный радиус рисованого круга
 
   const trRef = useRef<Konva.Transformer>(null);
-  const list = [...Array(amountPointer)];
-  const pointsRefs = list.map(x => useRef(null) );
+  const rotationCircleRef = useRef(null);
+  // const list = [...Array(amountPointer)];
+  // const pointsRefs = list.map(x => useRef(null) );
 
   const [points, setPoints] = useState<TPoint[]>();
 
@@ -71,16 +71,15 @@ export default function KonvaHole({
               y: -getCoordinate(currentCarrier, diameter / 2, i).y,
             },
             relative: {
-              x: getCoordinate(currentCarrier, radius, i).x + globalCenterX,
-              y: -getCoordinate(currentCarrier, radius, i).y + globalCenterY,
+              x: getCoordinate(currentCarrier, radius, i).x,
+              y: -getCoordinate(currentCarrier, radius, i).y,
             },
           },
           completed: false,
         };
         result.push(point);
       }
-      
-      
+
       setPoints(result);
     };
     calcStaticPoint();
@@ -97,81 +96,60 @@ export default function KonvaHole({
     let activePoints = points?.map((point) =>
       point.id == id ? { ...point, completed: true } : point
     );
+   
+    
     setPoints(activePoints);
   };
   const changeManualCarrier = (
     e: Konva.KonvaEventObject<DragEvent>,
-    id: number, ref: ForwardedRef<Konva.Circle>
-  ): void => {
-    trRef.current?.nodes([pointsRefs[id].current])
-    console.log(pointsRefs[id].current);
-    //иуывф
-
-    
-   
-   
-   
-  };
+    id: number,
+    ref?: ForwardedRef<Konva.Circle>
+  ): void => {};
 
   return (
     <div>
       <Stage width={window.innerWidth} height={window.innerHeight / 1.5}>
-        <Layer>
+        <Layer x={globalCenterX} y={globalCenterY}>
           <Group>
-            {manual && (
-              <Transformer              
-                ref={trRef}
-                rotationSnapTolerance={10}
-                resizeEnabled={false}
-                rotationSnaps={[45, 90, 135, 180, 225, 270, 360]}
-                borderEnabled={false}    
-                    
+            <FieldCoordinate radius={radius} ref={rotationCircleRef} />
+            {points?.map((point, index) => {
+              return (
+                <>
+                  {manual ? (
+                    <ManualCoordinatePoints
 
-              />
-            )}
-             {points?.map((point, index) => (
-              <TestingCoordinatePoint
-                id={point.id}
-                carrier={point.carrier}
-                key={point.id}
-                manual={point.manual}
-                coordinate={point.coordinate}
-                pointRadius={radius / 18}
-                globalCenterX={globalCenterX}
-                globalCenterY={globalCenterY}
-                active={point.active}
-                completed={point.completed}
-                changeActivePoint={changeActivePoint}
-                changeCompleted={changeCompleted}
-                changeCarrier={changeManualCarrier}
-                radius={radius}
-                ref={pointsRefs[index]}
-              />
-            ))}
-            {/* {points?.map((point, index) => (
-              <CoordinatePoints
-                id={point.id}
-                carrier={point.carrier}
-                key={point.id}
-                manual={point.manual}
-                coordinate={point.coordinate}
-                pointRadius={radius / 18}
-                globalCenterX={globalCenterX}
-                globalCenterY={globalCenterY}
-                active={point.active}
-                completed={point.completed}
-                changeActivePoint={changeActivePoint}
-                changeCompleted={changeCompleted}
-                changeCarrier={changeManualCarrier}
-                radius={radius}
-            
-              />
-            ))} */}
-            <FieldCoordinate
-              globalCenterX={globalCenterX}
-              globalCenterY={globalCenterY}
-              radius={radius}
-            />
+                      id={point.id}
+                      carrier={point.carrier}
+                      key={point.id}
+                      manual={point.manual}
+                      coordinate={point.coordinate}
+                      pointRadius={radius / 18}
+                      active={point.active}
+                      completed={point.completed}
+                      changeActivePoint={changeActivePoint}
+                      changeCompleted={changeCompleted}
+                      changeCarrier={changeManualCarrier}
+                      radius={radius}
+                    />
+                  ) : (
+                    <CoordinatePoints
+                      id={point.id}
+                      carrier={point.carrier}
+                      key={point.id}
+                      manual={point.manual}
+                      coordinate={point.coordinate}
+                      pointRadius={radius / 18}
+                      active={point.active}
+                      completed={point.completed}
+                      changeActivePoint={changeActivePoint}
+                      changeCompleted={changeCompleted}
+                      changeCarrier={changeManualCarrier}
+                      radius={radius}
+                    />
+                  )}
+                </>
+              );
+            })}
           </Group>
         </Layer>
       </Stage>

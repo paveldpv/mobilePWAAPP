@@ -1,4 +1,4 @@
-import { Circle, Group, Transformer ,Shape} from "react-konva";
+import { Circle, Group, Transformer, Shape } from "react-konva";
 import Konva from "konva";
 import { useRef, useEffect, RefObject, forwardRef, ForwardedRef } from "react";
 import { TPoint } from "../KonvaHole";
@@ -16,8 +16,6 @@ const TestingCoordinatePoint = forwardRef(
       coordinate,
       carrier,
       pointRadius,
-      globalCenterX,
-      globalCenterY,
       active,
       changeActivePoint,
       completed,
@@ -27,24 +25,22 @@ const TestingCoordinatePoint = forwardRef(
     }: TPoint & {
       radius: number;
       pointRadius: number;
-      globalCenterX: number;
-      globalCenterY: number;
       changeActivePoint: (id: number) => void;
       changeCompleted: (id: number) => void;
       changeCarrier: (
         e: Konva.KonvaEventObject<DragEvent>,
         id: number,
-        ref: ForwardedRef<Konva.Circle>
+        ref?: ForwardedRef<Konva.Circle>
       ) => void;
     },
     ref: ForwardedRef<Konva.Circle>
   ) => {
     const refCircle = useRef<Konva.Circle>(null);
+    const { absolute, relative } = coordinate;
     useEffect(() => {
-      
       refCircle.current?.addEventListener("dragmove", () => {
-        var x = globalCenterX;
-        var y = globalCenterY;
+        var x = 0;
+        var y = 0;
         const pos = refCircle.current?.absolutePosition();
 
         var scale =
@@ -60,10 +56,8 @@ const TestingCoordinatePoint = forwardRef(
       });
     }, []);
 
-    const { absolute, relative } = coordinate;
-
     return (
-      <Group ref={ref}>        
+      <Group >
         <Circle
           ref={refCircle}
           onClick={() => changeActivePoint(id)}
@@ -77,15 +71,13 @@ const TestingCoordinatePoint = forwardRef(
           stroke={completed ? `` : "#23232D"}
           strokeWidth={22}
           draggable={manual}
-          onDragMove={(e) => changeCarrier(e, id, ref)}
+          onDragMove={(e) => changeCarrier(e, id, refCircle)}
         />
         {absolute.x != 0 && absolute.y != 0 && (
           <LineIndicatorPoint
             completed={completed}
             active={active}
             coordinate={coordinate}
-            globalCenterX={globalCenterX}
-            globalCenterY={globalCenterY}
             pointRadius={pointRadius}
             carrier={carrier}
           />

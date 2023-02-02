@@ -1,52 +1,28 @@
-import { Group, Circle, Arrow, Text } from "react-konva";
-import { forwardRef,RefObject } from "react";
+import { Group, Circle, Arrow, Text, Transformer } from "react-konva";
+import { forwardRef, RefObject } from "react";
 
-
-type TFiletCoordinate = {
-  globalCenterY: number;
-  globalCenterX: number;
+type TFieldCoordinate = {
   radius: number;
 };
 
-
-export default function FieldCoordinate({radius,globalCenterX,globalCenterY}: TFiletCoordinate) {
+const FieldCoordinate = forwardRef(({radius}:TFieldCoordinate, ref) => {
   return (
     <Group>
-       <Circle
-            x={globalCenterX}
-            y={globalCenterY}
-            radius={radius}
-            stroke="#776AD6"
-            opacity={0.4}
-          />
-          <Arrow
-            dash={[33, 10]}
-            stroke={`#FCFFFD`}
-            y={globalCenterY}
-            x={globalCenterX}
-            points={[-radius - 18, 0, radius + 18, 0]}
-          />
-          <Text
-            x={globalCenterX + radius + 5}
-            y={globalCenterY + 10}
-            fontSize={24}
-            text="X"
-            fill="#FCFFFD"
-          />
-          <Arrow
-            dash={[33, 10]}
-            stroke={`#FCFFFD`}
-            y={globalCenterY}
-            x={globalCenterX}
-            points={[0, radius + 18, 0, -radius - 55]}
-          />
-          <Text
-            x={globalCenterX + 10}
-            y={globalCenterY - radius - 40}
-            text="Y"
-            fontSize={24}
-            fill="#FCFFFD"
-          />
+      <Circle radius={radius} stroke="#776AD6" opacity={0.4} />
+      <Arrow
+        dash={[33, 10]}
+        stroke={`#FCFFFD`}
+        points={[-radius - 18, 0, radius + 18, 0]}
+      />
+      <Text fontSize={24} text="X" fill="#FCFFFD" x={radius} y={-28} />
+      <Arrow
+        dash={[33, 10]}
+        stroke={`#FCFFFD`}
+        points={[0, radius + 18, 0, -radius - 55]}
+      />
+      <Text text="Y" fontSize={24} fill="#FCFFFD" y={-radius-28} x={5}/>
     </Group>
-  )
-}
+  );
+});
+export default FieldCoordinate;
+

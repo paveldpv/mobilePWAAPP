@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import { useContext } from "react";
+import { useContext,useState } from "react";
 
 import dynamic from "next/dynamic";
 
@@ -10,7 +10,8 @@ import { ctxVisibleNav } from "../../../components/components/Layouts";
 import KonvaHole from "../../../components/components/KonvaHole";
 import { TCalcGears } from "../../../data/dataCalcGears";
 
-type Props = {};
+import Range from "../../../components/UI/Range";
+
 
 const NoSSRComponent = dynamic(
   () => import("../../../components/components/KonvaHole"),
@@ -19,7 +20,7 @@ const NoSSRComponent = dynamic(
   }
 );
 
-export default function CalcDrillingHole({}: Props) {
+export default function CalcDrillingHole() {
   const params                      = useRouter();
   let   diameter                    = Number(params.query.D);
   let   amountPointer               = Number(params.query.N);
@@ -47,6 +48,8 @@ export default function CalcDrillingHole({}: Props) {
 
   let isVisibleNav = useContext(ctxVisibleNav);
 
+  const [quality,setQuality]=useState(10)
+
   return (
     <div className="relative ">
       <AnimatePresence>
@@ -63,10 +66,11 @@ export default function CalcDrillingHole({}: Props) {
                 diameter={diameter}
                 manual={manual}
                 initialCarrier={initialCarrier}
+                quality = {quality}
               />
             </div>
             <div className=" p-4 mt-4 text-white font-SofiaSans border-t-2 ml-2 mr-2">
-              {manual && <></>}
+              {manual && <Range quality={quality} setQuality={setQuality}/>}
               {dataParams.map((param, index) => {
                 return (
                   <ul key={index}>

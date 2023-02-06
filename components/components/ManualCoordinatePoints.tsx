@@ -5,6 +5,8 @@ import { TCoordinatePoints } from "./CoordinatePoints";
 
 import LineIndicatorPoint from "./LineIndicatorPoint";
 
+import { getToleranceSnaps } from "../../function/getToleranceSnaps";
+
 const ManuaLCoordinatePoints = forwardRef(
   (
     {
@@ -19,21 +21,28 @@ const ManuaLCoordinatePoints = forwardRef(
       changeCompleted,
       radius,
       changeCarrier,
-    }: TCoordinatePoints,
+      quality,
+    }: TCoordinatePoints & { quality: number },
     ref
   ) => {
     const trRef = useRef<Konva.Transformer>(null);
     const circleRef = useRef<Konva.Circle>(null);
+    const textCarrierRef = useRef<Konva.Text>(null)
 
     useEffect(() => {
-      if(circleRef ) return
-      trRef.current?.nodes([circleRef.current]);
-      trRef.current?.rotation(-carrier);
+      if (!circleRef) return;
+      trRef.current?.nodes([circleRef.current!]);
+      trRef.current?.rotation(carrier);
     }, []);
 
     return (
       <>
         <Transformer
+          onTransform={(e) =>
+            changeCarrier && changeCarrier(e.target.rotation(), id)
+          }
+          rotationSnaps={getToleranceSnaps(quality, id)}
+          rotationSnapTolerance={quality}
           rotateAnchorOffset={radius}
           onClick={() => changeActivePoint(id)}
           onTap={() => changeActivePoint(id)}
@@ -53,6 +62,7 @@ const ManuaLCoordinatePoints = forwardRef(
           completed={completed}
           coordinate={coordinate}
           pointRadius={pointRadius}
+          textRef = {textCarrierRef}
         />
       </>
     );

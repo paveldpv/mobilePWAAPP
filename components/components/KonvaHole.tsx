@@ -9,13 +9,14 @@ import FieldCoordinate from "./FieldCoordinate";
 
 import Konva from "konva";
 
-import TestingCoordinatePoint from "./TestComponetn/TestingCoordinatePointer";
+
 
 export type TKonvaHole = {
   diameter: number;
   amountPointer: number;
   manual: boolean;
   initialCarrier: number;
+  quality: number;
 };
 
 export type TCoordinate = {
@@ -40,16 +41,15 @@ export default function KonvaHole({
   diameter,
   manual,
   initialCarrier,
+  quality,
 }: TKonvaHole) {
   const globalCenterX = window.innerWidth / 2;
   const globalCenterY = window.innerHeight / 3;
 
   const radius = (window.innerWidth + window.innerHeight) / 7; //начальный радиус рисованого круга
 
-  const trRef = useRef<Konva.Transformer>(null);
+  //const trRef = useRef<Konva.Transformer>(null);
   const rotationCircleRef = useRef(null);
-  // const list = [...Array(amountPointer)];
-  // const pointsRefs = list.map(x => useRef(null) );
 
   const [points, setPoints] = useState<TPoint[]>();
 
@@ -67,12 +67,12 @@ export default function KonvaHole({
           carrier: currentCarrier,
           coordinate: {
             absolute: {
-              x: getCoordinate(currentCarrier, diameter / 2, i).x,
-              y: -getCoordinate(currentCarrier, diameter / 2, i).y,
+              x: getCoordinate(90-currentCarrier, diameter / 2, i).x,
+              y: -getCoordinate(90-currentCarrier, diameter / 2, i).y,
             },
             relative: {
-              x: getCoordinate(currentCarrier, radius, i).x,
-              y: -getCoordinate(currentCarrier, radius, i).y,
+              x: getCoordinate(90-currentCarrier, radius, i).x,
+              y: -getCoordinate(90-currentCarrier, radius, i).y,
             },
           },
           completed: false,
@@ -86,6 +86,8 @@ export default function KonvaHole({
   }, []);
 
   const changeActivePoint = (id: number): void => {
+    
+    
     let activePoints = points?.map((point) =>
       point.id == id ? { ...point, active: true } : { ...point, active: false }
     );
@@ -96,18 +98,38 @@ export default function KonvaHole({
     let activePoints = points?.map((point) =>
       point.id == id ? { ...point, completed: true } : point
     );
-   
-    
+
     setPoints(activePoints);
   };
-  const changeManualCarrier = (
-    e: Konva.KonvaEventObject<DragEvent>,
-    id: number,
-    ref?: ForwardedRef<Konva.Circle>
-  ): void => {};
+  const changeManualCarrier = (carrier: number, id: number): void => {
+       
+    setPoints((state) =>
+      state?.map((point, index) => {
+        if (point.id === id) {
+          return {
+            ...point,
+            coordinate: {
+              absolute: {
+                x: getCoordinate(90-carrier, diameter / 2).x,
+                y: -getCoordinate(90-carrier, diameter / 2).y,
+              },
+              relative: {
+                x: getCoordinate(90-carrier, radius).x,
+                y: -getCoordinate(90-carrier, radius).y,
+              },
+            },
+            active:true,
+            carrier:carrier
+          };
+        } else {
+          return {...point,active:false};
+        }
+      })
+    );
+  };
 
   return (
-    <div>
+    <div className=" font-Lobster">
       <Stage width={window.innerWidth} height={window.innerHeight / 1.5}>
         <Layer x={globalCenterX} y={globalCenterY}>
           <Group>
@@ -117,7 +139,7 @@ export default function KonvaHole({
                 <>
                   {manual ? (
                     <ManualCoordinatePoints
-
+                      quality={quality}
                       id={point.id}
                       carrier={point.carrier}
                       key={point.id}

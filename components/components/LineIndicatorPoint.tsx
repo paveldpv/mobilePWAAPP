@@ -3,9 +3,11 @@ import { TPoint } from "./KonvaHole";
 import { Line, Group, Text, Wedge } from "react-konva";
 
 import { getCenterVector } from "../../function/getCenterVector";
+import { correctCoordinateTextCarrier } from "../../function/correctCoordinateTextCarrier";
 
 type TlineIndicator = {
   pointRadius: number;
+  textRef:any
 } & Omit<TPoint, "id" | "manual">;
 
 export default function LineIndicatorPoint({
@@ -14,10 +16,11 @@ export default function LineIndicatorPoint({
   coordinate,
   pointRadius,
   carrier,
+  textRef
 }: TlineIndicator) {
   const { absolute, relative } = coordinate;
   return (
-    <Group opacity={completed ? 0 : active ? 1 : 0.5}>
+    <Group opacity={completed ? 0 : active ? 1 : 0.5} >
       <Line
         dash={[10, 10]}
         stroke={active ? "#FCFFFD" : "#23232D"}
@@ -28,7 +31,16 @@ export default function LineIndicatorPoint({
         radius={pointRadius * 4}
         angle={carrier}
         stroke={active ? "#FCFFFD" : "#23232D"}
-        rotation={-carrier}
+        rotation={270}
+      />
+      <Text 
+        offsetX={50} offsetY={50} 
+        rotation={carrier}
+        text={`${Math.round(Math.abs(carrier))}°`}
+        opacity={active ? 1 : 0}
+       // ref={textRef}
+        fontSize={18}
+        fill={`#FCFFFD`}
       />
 
       <Line
@@ -56,7 +68,7 @@ export default function LineIndicatorPoint({
         text={`${Math.abs(+absolute.y.toFixed(2))}`}
         fontSize={18}
         fill={active ? "#FCFFFD" : "17181C"}
-        y={getCenterVector(relative.y,  -20)}
+        y={getCenterVector(relative.y, -20)}
         x={relative.x + 20}
         rotation={90}
         opacity={active ? 1 : 0.5}

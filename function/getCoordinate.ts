@@ -3,7 +3,7 @@ import { TCoordinate } from '../components/components/KonvaHole'
 export const getCoordinate = (
 	carrier: number,
 	radius: number,
-	i: number
+	i?: number
 ): TCoordinate => {
 	return {
 		

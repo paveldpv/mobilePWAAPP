@@ -13,7 +13,7 @@ export type TCoordinatePoints = TPoint & {
   pointRadius: number;
   changeActivePoint: (id: number) => void;
   changeCompleted: (id: number) => void;
-  changeCarrier?: (e: Konva.KonvaEventObject<DragEvent>, id: number) => void;
+  changeCarrier?: (carrier:number, id: number) => void;
 };
 
 export default function CoordinatePoints({

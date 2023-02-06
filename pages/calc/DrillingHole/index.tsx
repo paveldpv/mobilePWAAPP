@@ -11,7 +11,6 @@ import { variantTopOpacity } from "../../../FrameVariants/variantTopOpacity";
 
 import { dataDrillingHole } from "../../../data/dataDrillingHole";
 
-type Props = {};
 
 type TParams = {
   diameter: Number;
@@ -19,7 +18,7 @@ type TParams = {
   manual: false;
 };
 
-export default function DrillingHole({}: Props) {
+export default function DrillingHole() {
   let isVisibleNav = useContext(ctxVisibleNav);
   let refDiameter = useRef<HTMLInputElement>();
   let refAmountPointer = useRef<HTMLInputElement>();
@@ -32,7 +31,7 @@ export default function DrillingHole({}: Props) {
     let amountPointer = refAmountPointer.current?.value;
     let manual = refManualChecked.current?.checked;
     let initialCarrier = refInitialCarrier.current?.value;
-    console.log(`index params manual`, manual);
+    
 
     Router.push(
       `/calc/DrillingHole/params?D=${diameter}&N=${amountPointer}&manual=${manual}&initialcarrier=${initialCarrier}`

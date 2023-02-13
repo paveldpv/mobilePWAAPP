@@ -7,7 +7,7 @@ import { correctCoordinateTextCarrier } from "../../function/correctCoordinateTe
 
 type TlineIndicator = {
   pointRadius: number;
-  textRef:any
+  // textRef?:any
 } & Omit<TPoint, "id" | "manual">;
 
 export default function LineIndicatorPoint({
@@ -16,7 +16,7 @@ export default function LineIndicatorPoint({
   coordinate,
   pointRadius,
   carrier,
-  textRef
+  
 }: TlineIndicator) {
   const { absolute, relative } = coordinate;
   return (

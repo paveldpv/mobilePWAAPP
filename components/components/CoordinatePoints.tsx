@@ -29,7 +29,7 @@ export default function CoordinatePoints({
   radius,
 }: TCoordinatePoints) {
   const { absolute, relative } = coordinate;
-
+  
 
   return (
     <Group>
@@ -41,13 +41,13 @@ export default function CoordinatePoints({
         x={relative.x}
         y={relative.y}
         fill="#FCFFFD"
-        radius={completed ? pointRadius / 3 : pointRadius *2}
-        stroke={completed ? `` : "#23232D"}           
-        strokeWidth={pointRadius*2-pointRadius/5}        
+        radius={completed ? pointRadius / 3 : pointRadius }
+             
         draggable={false}
       />
       {absolute.x != 0 && absolute.y != 0 && (
-        <LineIndicatorPoint
+        <LineIndicatorPoint 
+
           completed={completed}
           active={active}
           coordinate={coordinate}

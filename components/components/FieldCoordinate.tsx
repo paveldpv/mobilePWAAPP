@@ -7,7 +7,7 @@ type TFieldCoordinate = {
 
 const FieldCoordinate = forwardRef(({radius}:TFieldCoordinate, ref) => {
   return (
-    <Group>
+    <Group listening={false}>
       <Circle radius={radius} stroke="#776AD6" opacity={0.4} />
       <Arrow
         dash={[33, 10]}

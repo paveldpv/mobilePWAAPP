@@ -85,9 +85,7 @@ export default function KonvaHole({
     calcStaticPoint();
   }, []);
 
-  const changeActivePoint = (id: number): void => {
-    
-    
+  const changeActivePoint = (id: number): void => {    
     let activePoints = points?.map((point) =>
       point.id == id ? { ...point, active: true } : { ...point, active: false }
     );

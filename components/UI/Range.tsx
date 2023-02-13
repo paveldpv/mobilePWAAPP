@@ -3,19 +3,27 @@ import React from "react";
 type TRange = {
   quality: number;
   setQuality: React.Dispatch<React.SetStateAction<number>>;
-  minValue?:number,
-  maxValue?:number,
-  stepRange?:number
+  minValue?: number;
+  maxValue?: number;
+  stepRange?: number;
+  label?: string;
 };
 
-export default function Range({ quality, setQuality,maxValue=10,minValue=1,stepRange=1 }: TRange) {
+export default function Range({
+  quality,
+  setQuality,
+  maxValue = 10,
+  minValue = 1,
+  stepRange = 1,
+  label = `Точность в грудусах`,
+}: TRange) {
   return (
     <>
       <label
         htmlFor="medium-range"
-        className="block mb-2    dark:text-white text-2xl font-SofiaSans text-white text-center"
+        className="block mb-2  dark:text-white text-2xl font-SofiaSans text-white text-center font-bold"
       >
-      Точность в грудусах  {quality}
+        {label} {quality}
       </label>
       <input
         onChange={(e) => setQuality(+e.target.value)}

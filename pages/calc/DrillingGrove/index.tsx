@@ -1,6 +1,6 @@
 import Router from "next/router";
 import dynamic from "next/dynamic";
-import { useRef, useContext } from "react";
+import { useRef, useContext, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { ctxVisibleNav } from "../../../components/components/Layouts";
 import { dataDrillingGrove } from "../../../data/dataDrlillingGrove";
@@ -15,7 +15,15 @@ const NoSSRComponent = dynamic(
   { ssr: false }
 );
 
+export type TGrove ={
+  id:number,
+  initialAngle :number,
+  endAngle:number,
+  selected:boolean
+}
+
 export default function DrillingGrove() {
+  const isVisibleNav = useContext(ctxVisibleNav);
   const refInitialCarrier = useRef<HTMLInputElement>(null);
   const refGroveCarrier = useRef<HTMLInputElement>(null);
   const refRadiusCenter = useRef<HTMLInputElement>(null);
@@ -26,18 +34,28 @@ export default function DrillingGrove() {
     refInitialCarrier,
     refDiameterHole,
   ];
+  const [sector, setSector] = useState<TGrove[]>([
+    {id:1,initialAngle:0,endAngle:90,selected:true},
+    {id:2,initialAngle:90,endAngle:180,selected:false},
+    {id:3,initialAngle:180,endAngle:270,selected:false},
+    {id:4,initialAngle:270,endAngle:360,selected:false}
+  ]);
+  const changeSector=(id:number):void=>{
+    setSector(sectors=>sectors.map(sector=>id===sector.id?{...sector,selected:true}:{...sector,selected:false}))
+  }
 
-  const isVisibleNav = useContext(ctxVisibleNav);
-  
   const goToCalcDrillingGroove = () => {
     let initialCarrier = refInitialCarrier.current?.value;
     let groveCarrier = refGroveCarrier.current?.value;
     let radiusCenter = refRadiusCenter.current?.value;
     let diameterHole = refDiameterHole.current?.value;
+    let currentSector = sector.find(sector=>sector.selected)
+    
     Router.push(
-      `/calc/DrillingGrove/params?initialCarrier=${initialCarrier}&groveCarrier=${groveCarrier}&radiusCenter=${radiusCenter}&diameterHole=${diameterHole}`
+      `/calc/DrillingGrove/params?initialCarrier=${initialCarrier}&groveCarrier=${groveCarrier}&radiusCenter=${radiusCenter}&diameterHole=${diameterHole}&sector=${JSON.stringify(currentSector)}`
     );
   };
+
   return (
     <div className="relative">
       <AnimatePresence>
@@ -47,23 +65,28 @@ export default function DrillingGrove() {
             initial={"hidden"}
             exit={"exit"}
             animate={"visible"}
-            className="absolute z-10 top-52 flex flex-col items-center "
+            className="absolute z-10  "
           >
-            <div>
-              <ChangeSectorGrove/>
-            </div>
-            {dataDrillingGrove.map((param, index) => (
-              <InputParams
-                key={index}
-                control={param.control}
-                label={param.label}
-                mark={param.mark}
-                units={param.units}
-                defaultValue={param.defaultValue}
-                ref={inputRefs[index]}
+            <span className=" text-basisBlack p-2 rounded-lg ml-12  mt-12 font-SofiaSans text-2xl bg-blue ">Размещение</span>
+            <ChangeSectorGrove sector={sector} changeSector={changeSector}/>
+
+            <div className=" flex flex-col items-center ">
+              {dataDrillingGrove.map((param, index) => (
+                <InputParams
+                  key={index}
+                  control={param.control}
+                  label={param.label}
+                  mark={param.mark}
+                  units={param.units}
+                  defaultValue={param.defaultValue}
+                  ref={inputRefs[index]}
+                />
+              ))}
+              <Button
+                label={`Расчитать`}
+                handlerClick={goToCalcDrillingGroove}
               />
-            ))}
-            <Button label={`Расчитать`} handlerClick={goToCalcDrillingGroove} />
+            </div>
           </motion.div>
         )}
       </AnimatePresence>

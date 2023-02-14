@@ -11,18 +11,18 @@ export const getCoordinateSector = (
   switch (sector.initialAngle) {
     case 90:
       return {
-        x: width,
-        y: 0 ,
+        x:getCoordinate(45,radius).x-height,        
+        y:getCoordinate(45,radius).y,
       };
     case 180:
       return {
-        x: width,
-        y: height,
+        x:getCoordinate(45,radius).x,
+        y: getCoordinate(45,radius).y,
       };
     case 270:
       return {
-        x:0,
-        y: height,
+        x:getCoordinate(45,radius).x,
+        y: getCoordinate(45,radius).y,
       };
 
     default:

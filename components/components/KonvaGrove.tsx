@@ -15,8 +15,7 @@ type TKonvaGrove = {
   groveCarrier: number;
   radiusCenter: number;
   radiusHole: number;
-  scaleX: number;
-  scaleY: number;
+  scale: number;
 };
 
 export default function KonvaGrove({
@@ -26,16 +25,26 @@ export default function KonvaGrove({
   groveCarrier,
   radiusCenter,
   radiusHole,
-  scaleX,
-  scaleY,
+  scale,
 }: TKonvaGrove) {
+  console.log(sector);
+  
   const widthStage = window.innerWidth;
   const heightStage = window.innerHeight;
   const [points, setPoints] = useState<TPoint[]>([]);
-
-  const relativeRadius = scaleX<0 && scaleX!=0 ?widthStage / Math.abs(scaleX*5):widthStage/1.5;
-  console.log(relativeRadius);
+  const offset = getCoordinateSector(
+    sector,
+    widthStage,
+    heightStage / 1.7,
+    (widthStage / 1.5) * scale
+  );
+  console.log(offset);
   
+  const relativeRadius =
+    scale > 0 && scale != 0
+      ? widthStage / 1.5 
+      : widthStage / 1.5 - Math.abs(offset.x / 1.5);
+
   useEffect(() => {
     let res = [];
     let meanCarrier = groveCarrier / quality;
@@ -75,7 +84,7 @@ export default function KonvaGrove({
     }
 
     setPoints(res);
-  }, [quality, scaleX, scaleY]);
+  }, [quality, scale]);
 
   const changeActivePoint = (id: number): void => {
     let activePoints = points?.map((point) =>
@@ -95,19 +104,10 @@ export default function KonvaGrove({
       width={widthStage}
       height={heightStage / 1.5}
       offset={{
-        x: getCoordinateSector(
-          sector,
-          widthStage,
-          heightStage / 1.7,
-          relativeRadius * scaleX
-        ).x,
-        y: getCoordinateSector(
-          sector,
-          widthStage,
-          heightStage / 1.7,
-          relativeRadius * scaleX
-        ).y,
+        x: scale > 0 && scale != 0 ? points[0]?.coordinate?.absolute?.x-100: offset.x,
+        y: scale > 0 && scale != 0 ? points[0]?.coordinate?.absolute?.y : offset.y,
       }}
+       scale={{ x: scale > 0 ?1+ scale : 1, y: scale > 0 ? 1+scale : 1 }}
     >
       <Layer
       // x={getCoordinateSector(sector, widthStage, heightStage / 1.7,relativeRadius).x+10}

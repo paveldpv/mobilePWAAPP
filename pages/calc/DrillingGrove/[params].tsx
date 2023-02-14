@@ -2,7 +2,7 @@ import { useRouter } from "next/router";
 import LayoutsParams from "../../../components/components/LayoutsParams";
 import Range from "../../../components/UI/Range";
 import dynamic from "next/dynamic";
-import {useState } from "react";
+import { useState } from "react";
 import { TGrove } from ".";
 import { TPoint } from "../../../components/components/KonvaHole";
 
@@ -19,9 +19,8 @@ export default function CalcDrillingGrove() {
   const radiusHole = Number(params.query.diameterHole);
   const sector = JSON.parse(params.query.sector as string) as TGrove;
   const [quality, setQuality] = useState(4);
-  const [scaleX,setScaleX]=useState(0)
-  const [scaleY,setScaleY]=useState(1)
-  
+  const [scale, setScale] = useState(0);
+
   return (
     <LayoutsParams>
       <div className=" relative">
@@ -33,8 +32,7 @@ export default function CalcDrillingGrove() {
             initialCarrier={initialCarrier}
             groveCarrier={groveCarrier}
             radiusCenter={radiusCenter}
-            scaleX={scaleX}
-            scaleY={scaleY}
+            scale={scale}
           />
         </div>
         <div className="text-white font-SofiaSans border-t-2 m-4">
@@ -44,8 +42,14 @@ export default function CalcDrillingGrove() {
             setQuality={setQuality}
             maxValue={50}
           />
-          <Range label="Масшатаб оси X" maxValue={2} minValue={-2} stepRange={0.1} quality={scaleX} setQuality={setScaleX}/>
-          <Range label="Масштаб оси Y" maxValue={2} minValue={0.1} stepRange={0.1} quality={scaleY} setQuality={setScaleY}/>
+          <Range
+            label="Масшатаб оси X"
+            maxValue={1}
+            minValue={-1}
+            stepRange={0.1}
+            quality={scale}
+            setQuality={setScale}
+          />
         </div>
       </div>
     </LayoutsParams>

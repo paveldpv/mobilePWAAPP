@@ -4,6 +4,8 @@ import { TGrove } from "../../pages/calc/DrillingGrove";
 import { TPoint } from "./KonvaHole";
 import { getCoordinate } from "../../function/getCoordinate";
 import { getCoordinateSector } from "../../function/getCoordinateSector";
+import { getRadius } from "../../function/getRadius";
+import { getOffset } from "../../function/getOffset";
 import CoordinatePoints from "./CoordinatePoints";
 import Grove from "./Grove";
 import FieldCoordinate from "./FieldCoordinate";
@@ -27,23 +29,24 @@ export default function KonvaGrove({
   radiusHole,
   scale,
 }: TKonvaGrove) {
-  console.log(sector);
+  
   
   const widthStage = window.innerWidth;
   const heightStage = window.innerHeight;
   const [points, setPoints] = useState<TPoint[]>([]);
-  const offset = getCoordinateSector(
-    sector,
-    widthStage,
-    heightStage / 1.7,
-    (widthStage / 1.5) * scale
-  );
-  console.log(offset);
+  // const offset = getCoordinateSector(
+  //   sector,
+  //   widthStage,
+  //   heightStage / 1.7,
+  //   (widthStage / 1.5) * scale
+  // );
+
+
   
-  const relativeRadius =
-    scale > 0 && scale != 0
-      ? widthStage / 1.5 
-      : widthStage / 1.5 - Math.abs(offset.x / 1.5);
+  // const relativeRadius =
+  //   scale > 0 && scale != 0
+  //     ? widthStage / 1.5 
+  //     : widthStage / 1.5 - Math.abs(offset.x / 1.5);
 
   useEffect(() => {
     let res = [];
@@ -86,6 +89,11 @@ export default function KonvaGrove({
     setPoints(res);
   }, [quality, scale]);
 
+  const offset = getOffset(sector,widthStage,heightStage,1.5,scale,points)
+  const relativeRadius = getRadius(scale,widthStage,1.5)
+  console.log(offset);
+  
+
   const changeActivePoint = (id: number): void => {
     let activePoints = points?.map((point) =>
       point.id == id ? { ...point, active: true } : { ...point, active: false }
@@ -103,11 +111,13 @@ export default function KonvaGrove({
     <Stage
       width={widthStage}
       height={heightStage / 1.5}
-      offset={{
-        x: scale > 0 && scale != 0 ? points[0]?.coordinate?.absolute?.x-100: offset.x,
-        y: scale > 0 && scale != 0 ? points[0]?.coordinate?.absolute?.y : offset.y,
-      }}
-       scale={{ x: scale > 0 ?1+ scale : 1, y: scale > 0 ? 1+scale : 1 }}
+      // offset={{
+      //   x: scale > 0 && scale != 0 ? points[0]?.coordinate?.absolute?.x-100: offset.x,
+      //   y: scale > 0 && scale != 0 ? points[0]?.coordinate?.absolute?.y : offset.y,
+      // }}
+      
+      offset={offset}
+         scale={{ x: scale > 0 ?1+ scale : 1, y: scale > 0 ? 1+scale : 1 }}
     >
       <Layer
       // x={getCoordinateSector(sector, widthStage, heightStage / 1.7,relativeRadius).x+10}

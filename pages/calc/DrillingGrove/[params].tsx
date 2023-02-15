@@ -24,7 +24,7 @@ export default function CalcDrillingGrove() {
   return (
     <LayoutsParams>
       <div className=" relative">
-        <div className="ml-4">
+        <div className="">
           <KonvaGrove
             sector={sector}
             radiusHole={radiusHole}

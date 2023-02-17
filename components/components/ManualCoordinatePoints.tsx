@@ -68,4 +68,5 @@ const ManuaLCoordinatePoints = forwardRef(
     );
   }
 );
+ManuaLCoordinatePoints.displayName = `ManuaLCoordinatePoints`
 export default ManuaLCoordinatePoints;

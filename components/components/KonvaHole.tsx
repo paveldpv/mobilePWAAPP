@@ -48,7 +48,7 @@ export default function KonvaHole({
 
   const radius = (window.innerWidth + window.innerHeight) / 7; //начальный радиус рисованого круга
 
-  //const trRef = useRef<Konva.Transformer>(null);
+  
   const rotationCircleRef = useRef(null);
 
   const [points, setPoints] = useState<TPoint[]>();
@@ -134,9 +134,9 @@ export default function KonvaHole({
             <FieldCoordinate radius={radius} ref={rotationCircleRef} />
             {points?.map((point, index) => {
               return (
-                <>
+                <Group key={index}>
                   {manual ? (
-                    <ManualCoordinatePoints
+                    <ManualCoordinatePoints                    
                       quality={quality}
                       id={point.id}
                       carrier={point.carrier}
@@ -152,7 +152,7 @@ export default function KonvaHole({
                       radius={radius}
                     />
                   ) : (
-                    <CoordinatePoints
+                    <CoordinatePoints                    
                       id={point.id}
                       carrier={point.carrier}
                       key={point.id}
@@ -167,7 +167,7 @@ export default function KonvaHole({
                       radius={radius}
                     />
                   )}
-                </>
+                </Group>
               );
             })}
           </Group>

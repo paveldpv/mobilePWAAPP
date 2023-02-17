@@ -9,7 +9,7 @@ type TGrove = {
   groveCarrier?: number;
   hole?: number;
   initialAngle?: number;
-  stroke?:boolean
+  stroke?: boolean;
 };
 
 export default function Grove({
@@ -20,8 +20,8 @@ export default function Grove({
   id,
   groveCarrier,
   hole = 36,
-  initialAngle=0,
-  stroke
+  initialAngle = 0,
+  stroke,
 }: TGrove) {
   let quality = groveCarrier ? 150 : 15;
   let points = new Array(quality).fill(1).map((item, index) => {
@@ -47,12 +47,9 @@ export default function Grove({
   let startPoints = [points[0], points[1]];
 
   return (
-    <Group opacity={stroke? 0.2:1}
-      rotation={ angle+initialAngle}
-    >
+    <Group opacity={stroke ? 0.2 : 1} rotation={angle + initialAngle}>
       <Line
         opacity={selected ? 1 : 0.08}
-        // fill={stroke?`red`:`black`}
         onClick={() => changeSector && changeSector(id)}
         onTap={() => changeSector && changeSector(id)}
         stroke="#FCFFFD"
@@ -61,7 +58,7 @@ export default function Grove({
         lineCap="round"
         lineJoin="round"
       />
-      
+
       <Text
         text="R"
         fill="#FFAAC7"

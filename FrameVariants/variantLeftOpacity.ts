@@ -2,10 +2,10 @@
    visible: (i: Number) => ({
      x: 0,
      transition: {
-       delay: Number(i) * 0.5,
+       delay: Number(i)*0.1+0.5 ,
      },
    }),
    hidden: {
-     x: -500,
+     x: -1000,
    },
  };

@@ -67,8 +67,10 @@ export default function DrillingGrove() {
             animate={"visible"}
             className="absolute z-10  "
           >
-            <span className=" text-basisBlack p-2 rounded-lg ml-12  mt-12 font-SofiaSans text-2xl bg-blue ">Размещение</span>
-            <ChangeSectorGrove sector={sector} changeSector={changeSector}/>
+            <span className=" text-basisBlack p-2 rounded-lg ml-12  mt-12 font-SofiaSans text-xl bg-blue ">Размещение</span>
+            <div className="mt-2">
+              <ChangeSectorGrove sector={sector} changeSector={changeSector}/>
+            </div>
 
             <div className=" flex flex-col items-center ">
               {dataDrillingGrove.map((param, index) => (

@@ -2,9 +2,10 @@ import { useRouter } from "next/router";
 import LayoutsParams from "../../../components/components/LayoutsParams";
 import Range from "../../../components/UI/Range";
 import dynamic from "next/dynamic";
-import { useState } from "react";
+import { useState,useReducer,useRef } from "react";
 import { TGrove } from ".";
 import { TPoint } from "../../../components/components/KonvaHole";
+import InputCheckbox from "../../../components/UI/InputCheck";
 
 const KonvaGrove = dynamic(
   () => import("../../../components/components/KonvaGrove"),
@@ -18,8 +19,10 @@ export default function CalcDrillingGrove() {
   const radiusCenter = Number(params.query.radiusCenter);
   const radiusHole = Number(params.query.diameterHole);
   const sector = JSON.parse(params.query.sector as string) as TGrove;
+  
   const [quality, setQuality] = useState(4);
   const [scale, setScale] = useState(0);
+  const [checked ,setChecked ]=useReducer(prev=>!prev,true)
 
   return (
     <LayoutsParams>
@@ -33,6 +36,7 @@ export default function CalcDrillingGrove() {
             groveCarrier={groveCarrier}
             radiusCenter={radiusCenter}
             scale={scale}
+            draggable={checked}
           />
         </div>
         <div className="text-white font-SofiaSans border-t-2 m-4">
@@ -43,13 +47,14 @@ export default function CalcDrillingGrove() {
             maxValue={50}
           />
           <Range
-            label="Масшатаб оси X"
-            maxValue={1}
+            label="Масшатаб "
+            maxValue={2}
             minValue={-1}
             stepRange={0.1}
             quality={scale}
             setQuality={setScale}
           />
+          <InputCheckbox label={`Зафиксировать `} setChecked={setChecked}/>
         </div>
       </div>
     </LayoutsParams>

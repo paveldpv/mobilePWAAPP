@@ -9,6 +9,6 @@ export const variantTopOpacity = {
     y: -900,
   },
   exit: {
-    x: -50,
+    x: -1000,
   },
 };

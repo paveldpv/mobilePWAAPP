@@ -26,7 +26,7 @@ export default function ChangeSectorGrove({
     <Stage
       scale={scale}
       x={widthStage / 2}
-      y={heightStage / 4}
+      y={heightStage /3.9}
       width={widthStage}
       height={heightStage / 2}
     >

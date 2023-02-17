@@ -18,16 +18,17 @@ export default function Layouts({ children }: Props) {
 
   return (
     <ctxVisibleNav.Provider value={isVisibleNav}>
-      <div className=" h-screen overflow-hidden w-screen relative bg-basisBlack  ">
+      <div className=" h-screen overflow-hidden w-screen relative bg-basisBlack  ">        
         <AnimatePresence>
           {!isVisibleNav && (
-            <motion.div
-              initial={{ y: -100 }}
+            <motion.div 
+            className=" relative top-2 "
+              initial={{ y: -1000 }}
               animate={{ y: 0 }}
-              transition={{ delay: 0.1 }}
-              exit={{ y: -100 }}
+              transition={{ delay: 0.4 }}
+              exit={{ y: -1000 }}
             >
-              <HiViewList
+              <HiViewList 
                 className="text-white"
                 size={40}
                 onClick={() => setVisibleNav(true)}
@@ -38,11 +39,11 @@ export default function Layouts({ children }: Props) {
         <AnimatePresence>
           {isVisibleNav && (
             <motion.div
-              className=" shadow-2xl bg-basisBlack absolute mr-4 top-8 rounded-r-lg z-40"
-              initial={{ x: -500 }}
+              className=" shadow-2xl bg-red absolute mr-4 top-8 rounded-r-lg z-40 h-5/6 w-11/12"
+              initial={{ x: -1000 }}
               animate={{ x: 0 }}
-              transition={{ delay: 0.3 }}
-              exit={{ x: -500 }}
+              transition={{ delay: 0.4 }}
+              exit={{ x: -1000 }}
             >
               <Nav setVisibleNav={closeNavBar} />
             </motion.div>

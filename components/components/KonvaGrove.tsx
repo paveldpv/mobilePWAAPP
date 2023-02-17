@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from "react";
-import { Stage, Circle, Line, Layer, Group } from "react-konva";
+import React, { useState, useEffect, useRef, useCallback } from "react";
+import { Stage, Layer } from "react-konva";
 import { TGrove } from "../../pages/calc/DrillingGrove";
-import { TPoint } from "./KonvaHole";
+import { TCoordinate, TPoint } from "./KonvaHole";
 import { getCoordinate } from "../../function/getCoordinate";
-import { getCoordinateSector } from "../../function/getCoordinateSector";
+
 import { getRadius } from "../../function/getRadius";
 import { getOffset } from "../../function/getOffset";
 import CoordinatePoints from "./CoordinatePoints";
@@ -18,6 +18,7 @@ type TKonvaGrove = {
   radiusCenter: number;
   radiusHole: number;
   scale: number;
+  draggable: boolean;
 };
 
 export default function KonvaGrove({
@@ -28,29 +29,19 @@ export default function KonvaGrove({
   radiusCenter,
   radiusHole,
   scale,
+  draggable,
 }: TKonvaGrove) {
-  
-  
   const widthStage = window.innerWidth;
   const heightStage = window.innerHeight;
+  const relativeRadius = getRadius(scale, widthStage, 1.5);
   const [points, setPoints] = useState<TPoint[]>([]);
-  // const offset = getCoordinateSector(
-  //   sector,
-  //   widthStage,
-  //   heightStage / 1.7,
-  //   (widthStage / 1.5) * scale
-  // );
-
-
+  const [offset, setOffset] = useState<TCoordinate>({ x: 0, y: 0 });
   
-  // const relativeRadius =
-  //   scale > 0 && scale != 0
-  //     ? widthStage / 1.5 
-  //     : widthStage / 1.5 - Math.abs(offset.x / 1.5);
-
+  
   useEffect(() => {
     let res = [];
     let meanCarrier = groveCarrier / quality;
+    console.log("useEffect");
 
     for (let i = 0; i <= quality; i++) {
       let point: TPoint = {
@@ -86,13 +77,20 @@ export default function KonvaGrove({
       res.push(point);
     }
 
+    setOffset(
+      getOffset(
+        sector,
+        widthStage,
+        heightStage,
+        1.5,
+        scale,
+        initialCarrier,
+        points
+      )
+    );
+
     setPoints(res);
   }, [quality, scale]);
-
-  const offset = getOffset(sector,widthStage,heightStage,1.5,scale,points)
-  const relativeRadius = getRadius(scale,widthStage,1.5)
-  console.log(offset);
-  
 
   const changeActivePoint = (id: number): void => {
     let activePoints = points?.map((point) =>
@@ -109,20 +107,16 @@ export default function KonvaGrove({
 
   return (
     <Stage
+      draggable={draggable}
       width={widthStage}
       height={heightStage / 1.5}
-      // offset={{
-      //   x: scale > 0 && scale != 0 ? points[0]?.coordinate?.absolute?.x-100: offset.x,
-      //   y: scale > 0 && scale != 0 ? points[0]?.coordinate?.absolute?.y : offset.y,
-      // }}
-      
       offset={offset}
-         scale={{ x: scale > 0 ?1+ scale : 1, y: scale > 0 ? 1+scale : 1 }}
+      scale={{
+        x: scale > 0 ? 1 + scale / 2 : 1,
+        y: scale > 0 ? 1 + scale / 2 : 1,
+      }}
     >
-      <Layer
-      // x={getCoordinateSector(sector, widthStage, heightStage / 1.7,relativeRadius).x+10}
-      // y={getCoordinateSector(sector, widthStage, heightStage / 1.7,relativeRadius).y+10}
-      >
+      <Layer>
         <Grove
           stroke={true}
           initialAngle={initialCarrier}
@@ -130,7 +124,7 @@ export default function KonvaGrove({
           radius={relativeRadius}
           id={1}
           selected={true}
-          hole={100}
+          hole={radiusHole}
           groveCarrier={groveCarrier}
         />
         {points.map((point, index) => (

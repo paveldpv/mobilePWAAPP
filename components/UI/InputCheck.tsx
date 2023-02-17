@@ -1,12 +1,13 @@
-import { forwardRef, MutableRefObject } from 'react'
+import { forwardRef, MutableRefObject,DispatchWithoutAction ,LegacyRef } from 'react'
 import { motion } from 'framer-motion'
 
 type TCheckbox = {
 	label: String
-	ref: MutableRefObject<HTMLInputElement> | null
+	ref: MutableRefObject<HTMLInputElement> | null,
+	setChecked?:DispatchWithoutAction
 }
 
-const InputCheckbox = forwardRef(({ label }: TCheckbox, ref) => {
+const InputCheckbox = forwardRef(({ label,setChecked }: TCheckbox, ref) => {
 	return (
 		<div className='grid grid-cols-5 border-4  border-solid border-black rounded-xl p-8 mt-2 mb-2 mr-3 ml-3'>
 			<div className=' col-span-3 font-SofiaSans text-4xl font-bold text-basicBlack mr-10'>
@@ -24,12 +25,12 @@ const InputCheckbox = forwardRef(({ label }: TCheckbox, ref) => {
 			</div>
 			<div className='col-span-2'>
 				<label className='inline-flex relative items-center mr-5 cursor-pointer'>
-					<input type='checkbox' className='sr-only peer' ref={ref} />
+					<input type='checkbox' className='sr-only peer' ref={ref as LegacyRef<HTMLInputElement> } onChange={setChecked && setChecked}/>
 					<div className="w-20 h-9 bg-gray-200 rounded-full peer  peer-focus:ring-green-300  peer-checked:after:translate-x-full peer-checked:after:border-white  after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border after:border-basisBlack after:rounded-full after:h-8 after:w-9 after:transition-all peer-checked:bg-cardGreen"></div>
 				</label>
 			</div>
 		</div>
 	)
 })
-
+InputCheckbox.displayName=`InputCheckbox`
 export default InputCheckbox

@@ -24,5 +24,6 @@ const FieldCoordinate = forwardRef(({radius}:TFieldCoordinate, ref) => {
     </Group>
   );
 });
+FieldCoordinate.displayName=`FieldCoordinate`
 export default FieldCoordinate;
 

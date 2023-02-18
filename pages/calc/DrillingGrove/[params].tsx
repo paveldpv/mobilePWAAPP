@@ -2,9 +2,9 @@ import { useRouter } from "next/router";
 import LayoutsParams from "../../../components/components/LayoutsParams";
 import Range from "../../../components/UI/Range";
 import dynamic from "next/dynamic";
-import { useState,useReducer,useRef } from "react";
+import { useState,useReducer } from "react";
 import { TGrove } from ".";
-import { TPoint } from "../../../components/components/KonvaHole";
+
 import InputCheckbox from "../../../components/UI/InputCheck";
 
 const KonvaGrove = dynamic(
@@ -14,11 +14,11 @@ const KonvaGrove = dynamic(
 
 export default function CalcDrillingGrove() {
   const params = useRouter();
-  const initialCarrier = Number(params.query.initialCarrier);
-  const groveCarrier = Number(params.query.groveCarrier);
-  const radiusCenter = Number(params.query.radiusCenter);
-  const radiusHole = Number(params.query.diameterHole);
-  const sector = JSON.parse(params.query.sector as string) as TGrove;
+  const initialCarrier = Number(params.query.initialCarrier || 45);
+  const groveCarrier = Number(params.query.groveCarrier || 30);
+  const radiusCenter = Number(params.query.radiusCenter  || 200);
+  const radiusHole = Number(params.query.diameterHole || 200);
+  const sector =params.query.sector? JSON.parse((params.query.sector  ) as string)  as TGrove:  {id:1,initialAngle:0,endAngle:90,selected:false}
   
   const [quality, setQuality] = useState(4);
   const [scale, setScale] = useState(0);

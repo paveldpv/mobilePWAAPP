@@ -37,5 +37,5 @@ const InputParams = forwardRef(
     );
   }
 );
-
+InputParams.displayName=`InputParams`
 export default InputParams;

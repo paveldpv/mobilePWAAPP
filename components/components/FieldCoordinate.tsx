@@ -1,5 +1,5 @@
-import { Group, Circle, Arrow, Text, Transformer } from "react-konva";
-import { forwardRef, RefObject } from "react";
+import { Group, Circle, Arrow, Text } from "react-konva";
+import { forwardRef } from "react";
 
 type TFieldCoordinate = {
   radius: number;

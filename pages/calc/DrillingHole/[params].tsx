@@ -12,15 +12,16 @@ const KonvaHole = dynamic(
   () => import("../../../components/components/KonvaHole"),
   {
     ssr: false,
+    
   }
 );
 
 export default function CalcDrillingHole() {
   const params = useRouter();
-  let diameter = Number(params.query.D);
-  let amountPointer = Number(params.query.N);
-  let manual = !!JSON.parse(params.query.manual as string);
-  let initialCarrier = Number(params.query.initialcarrier);
+  let diameter = Number(params.query.D || 200);
+  let amountPointer = Number(params.query.N || 4);
+  let manual = !!JSON.parse((params.query.manual || false) as string );
+  let initialCarrier = Number(params.query.initialcarrier || 45);
 
   let dataParams: Pick<TCalcGears, "label" | "value" | "units">[] = [
     {

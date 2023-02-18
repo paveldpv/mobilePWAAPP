@@ -1,4 +1,4 @@
-import { Wedge, Rect, Group, Line, Arrow, Circle, Text } from "react-konva";
+import { Wedge,  Group, Line, Arrow, Circle, Text } from "react-konva";
 import { getCoordinate } from "../../function/getCoordinate";
 type TGrove = {
   id: number;

@@ -1,6 +1,6 @@
 import { useState, createContext } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { HiViewList, HiX } from "react-icons/hi";
+import { HiViewList } from "react-icons/hi";
 import Nav from "./Nav";
 
 type Props = {

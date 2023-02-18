@@ -3,7 +3,7 @@ import { TPoint } from "./KonvaHole";
 import { Line, Group, Text, Wedge } from "react-konva";
 
 import { getCenterVector } from "../../function/getCenterVector";
-import { correctCoordinateTextCarrier } from "../../function/correctCoordinateTextCarrier";
+
 
 type TlineIndicator = {
   pointRadius: number;

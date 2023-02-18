@@ -16,9 +16,6 @@ export const getOffset = (
   let radius = (width / corrector) * scale;
   let meanAngle =
     points && points[Math.round(points.length / 2)]?.carrier + initialCarrier;
-
-  console.log(sector.initialAngle);
-
   switch (sector.initialAngle) {
     case 90:
       if (scale > 0 && points) {

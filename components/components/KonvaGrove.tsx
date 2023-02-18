@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useCallback } from "react";
+import React, { useState, useEffect} from "react";
 import { Stage, Layer } from "react-konva";
 import { TGrove } from "../../pages/calc/DrillingGrove";
 import { TCoordinate, TPoint } from "./KonvaHole";
@@ -41,7 +41,7 @@ export default function KonvaGrove({
   useEffect(() => {
     let res = [];
     let meanCarrier = groveCarrier / quality;
-    console.log("useEffect");
+    
 
     for (let i = 0; i <= quality; i++) {
       let point: TPoint = {

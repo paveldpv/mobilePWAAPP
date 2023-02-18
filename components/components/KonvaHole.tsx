@@ -1,5 +1,5 @@
-import { useEffect, useState, useRef, RefObject, ForwardedRef } from "react";
-import { Stage, Layer, Transformer, Group, Shape } from "react-konva";
+import { useEffect, useState, useRef } from "react";
+import { Stage, Layer, Group, } from "react-konva";
 
 import { getCoordinate } from "../../function/getCoordinate";
 
@@ -7,7 +7,7 @@ import CoordinatePoints from "./CoordinatePoints";
 import ManualCoordinatePoints from "./ManualCoordinatePoints";
 import FieldCoordinate from "./FieldCoordinate";
 
-import Konva from "konva";
+
 
 
 

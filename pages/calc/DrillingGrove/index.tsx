@@ -6,11 +6,11 @@ import { ctxVisibleNav } from "../../../components/components/Layouts";
 import { dataDrillingGrove } from "../../../data/dataDrlillingGrove";
 import { variantTopOpacity } from "../../../FrameVariants/variantTopOpacity";
 
-import ChangeSectorGrove from "../../../components/UI/ChangeSectorGrove";
+//import ChangeSectorGrove from "../../../components/UI/ChangeSectorGrove";
 import InputParams from "../../../components/UI/InputParams";
 import Button from "../../../components/UI/Button";
 
-const NoSSRComponent = dynamic(
+const ChangeSectorGrove = dynamic(
   () => import("../../../components/UI/ChangeSectorGrove"),
   { ssr: false }
 );

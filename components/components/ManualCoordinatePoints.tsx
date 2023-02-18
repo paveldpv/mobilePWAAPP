@@ -62,7 +62,7 @@ const ManuaLCoordinatePoints = forwardRef(
           completed={completed}
           coordinate={coordinate}
           pointRadius={pointRadius}
-          textRef = {textCarrierRef}
+          // textRef = {textCarrierRef}
         />
       </>
     );

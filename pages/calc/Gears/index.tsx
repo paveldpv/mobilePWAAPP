@@ -1,5 +1,5 @@
 import { useRef, useState, useContext } from "react";
-import $axios from "../../../config/axios";
+import _axios from "../../../config/axios";
 import { AnimatePresence, motion } from "framer-motion";
 
 import { ctxVisibleNav } from "../../../components/components/Layouts";
@@ -48,7 +48,7 @@ export default function Gears({}: Props) {
   ];
 
   const calcGears = async () => {
-    let module = Number(moduleRef.current?.value);
+    let gearModule = Number(moduleRef.current?.value);
     let amountTeeth = Number(amountTeethRef.current?.value);
     let corner = Number(cornerRef.current?.value);
     let KGears = Number(KGearsRef.current?.value);
@@ -60,7 +60,7 @@ export default function Gears({}: Props) {
         `${getAmountTeeth(amountTeeth, corner, cornerInitial)}`,
         `${getCommonNormal(amountTeeth, corner, KGears, cornerInitial)}`, //round
         `${getLengthCommonNormal(
-          module,
+          gearModule,
           amountTeeth,
           corner,
           KGears,
@@ -70,7 +70,7 @@ export default function Gears({}: Props) {
       precision: 8,
     };
 
-    const res = await $axios.post(``, calcGear);
+    const res = await _axios.post(``, calcGear);
     const data = res.data.result as String[];
 
     setOutCornerProfileRef(Number(data[0]));

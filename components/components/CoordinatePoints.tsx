@@ -1,12 +1,10 @@
-import { Circle, Group, Transformer } from "react-konva";
-import Konva from "konva";
-import { useRef, useEffect, RefObject, forwardRef, ForwardedRef } from "react";
+import { Circle, Group } from "react-konva";
+
 import { TPoint } from "./KonvaHole";
 
-import { getCenterVector } from "../../function/getCenterVector";
 
 import LineIndicatorPoint from "./LineIndicatorPoint";
-import { KonvaEventObject } from "konva/lib/Node";
+
 
 export type TCoordinatePoints = TPoint & {
   radius: number;
